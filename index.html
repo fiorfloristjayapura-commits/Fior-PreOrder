@@ -2,10 +2,16 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Valentine Display</title>
+  <title>Valentine Display FIOR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
+    :root {
+      --fior-pink: #e8a5b5;
+      --fior-rose: #d97a8c;
+      --fior-soft: #fff4f6;
+    }
+
     body {
       margin: 0;
       background: black;
@@ -13,7 +19,7 @@
       font-family: "Georgia", serif;
       height: 100vh;
       width: 100vw;
-      color: white;
+      color: var(--fior-soft);
     }
 
     video {
@@ -31,56 +37,100 @@
       object-fit: contain;
     }
 
-    /* Ucapan Valentine */
+    /* Overlay warna */
+    .color-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.2),
+        rgba(217,122,140,0.25)
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Logo */
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 120px;
+      z-index: 5;
+      opacity: 0.95;
+    }
+
+    /* Teks Valentine */
     .valentine-text {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      z-index: 2;
+      z-index: 4;
       max-width: 80%;
-      animation: fadeIn 2s ease;
     }
 
-    .valentine-text p {
-      font-size: 28px;
-      line-height: 1.5;
-      margin: 0;
-      text-shadow: 0 0 15px rgba(0,0,0,0.8);
+    .line {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease forwards;
+      text-shadow: 0 0 20px rgba(217,122,140,0.6);
     }
 
-    .valentine-text span {
-      display: block;
-      margin-top: 15px;
-      font-size: 20px;
-      letter-spacing: 2px;
-      opacity: 0.9;
+    .line1 { font-size: 30px; animation-delay: 0.5s; }
+    .line2 { font-size: 30px; margin-top: 10px; animation-delay: 1.5s; }
+    .line3 {
+      font-size: 22px;
+      margin-top: 25px;
+      letter-spacing: 3px;
+      animation-delay: 2.5s;
+      color: var(--fior-pink);
+      font-weight: bold;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -40%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Notif kecil */
+    /* Notif */
     .tap-notif {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(217,122,140,0.9);
       color: white;
       padding: 10px 16px;
       border-radius: 20px;
       font-size: 14px;
-      z-index: 3;
+      z-index: 6;
       animation: fadeBlink 2s infinite;
-      backdrop-filter: blur(5px);
+      box-shadow: 0 0 15px rgba(217,122,140,0.6);
     }
 
     @keyframes fadeBlink {
       0%,100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Kelopak bunga */
+    .petal {
+      position: fixed;
+      top: -40px;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle at 30% 30%, #ffd1dc, #d97a8c);
+      border-radius: 50% 50% 50% 0;
+      opacity: 0.8;
+      z-index: 3;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.4;
+      }
     }
   </style>
 </head>
@@ -90,16 +140,22 @@
     <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
   </video>
 
-  <!-- Ucapan Valentine -->
+  <div class="color-overlay"></div>
+
+  <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="FIOR Logo">
+
   <div class="valentine-text">
-    <p>
-      Untuk perasaan yang tak bisa dijelaskan,<br>
+    <div class="line line1">
+      Untuk perasaan yang tak bisa dijelaskan,
+    </div>
+    <div class="line line2">
       biarkan bunga yang menyampaikannya.
-    </p>
-    <span>HAPPY VALENTINE’S DAY</span>
+    </div>
+    <div class="line line3">
+      HAPPY VALENTINE’S DAY
+    </div>
   </div>
 
-  <!-- Notif suara -->
   <div class="tap-notif" id="tapNotif">
     🔊 Sentuh layar untuk suara
   </div>
@@ -111,12 +167,10 @@
     function detectDevice() {
       const isPortrait = window.innerHeight > window.innerWidth;
       const isSmallScreen = window.innerWidth < 900;
-
       if (isPortrait || isSmallScreen) {
         document.body.classList.add("mobile");
       }
     }
-
     detectDevice();
 
     function enableSound() {
@@ -131,15 +185,24 @@
 
     function enterFullscreen() {
       const elem = document.documentElement;
+      if (elem.requestFullscreen) elem.requestFullscreen();
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    }
 
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
+    /* Generate kelopak bunga */
+    function createPetals() {
+      for (let i = 0; i < 15; i++) {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (6 + Math.random() * 6) + "s";
+        petal.style.opacity = 0.4 + Math.random() * 0.6;
+        document.body.appendChild(petal);
       }
     }
+
+    createPetals();
   </script>
 
 </body>
