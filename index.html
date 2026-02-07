@@ -21,28 +21,34 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* autofit untuk smartphone */
       background: black;
       z-index: 1;
+      object-fit: cover;
     }
 
-    .overlay {
+    /* Mode smartphone */
+    body.mobile video {
+      object-fit: contain;
+    }
+
+    /* Notif kecil */
+    .tap-notif {
       position: fixed;
-      bottom: 30px;
-      width: 100%;
-      text-align: center;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
       color: white;
-      font-size: 20px;
-      font-weight: bold;
-      z-index: 2;
-      text-shadow: 0 0 10px rgba(0,0,0,0.8);
-      animation: blink 1.5s infinite;
-      padding: 10px;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      z-index: 3;
+      animation: fadeBlink 2s infinite;
+      backdrop-filter: blur(5px);
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    @keyframes fadeBlink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
   </style>
 </head>
@@ -52,24 +58,50 @@
     <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
   </video>
 
-  <div class="overlay" id="tapText">
-    SENTUH LAYAR UNTUK AKTIFKAN SUARA
+  <div class="tap-notif" id="tapNotif">
+    🔊 Sentuh layar untuk suara
   </div>
 
   <script>
     const video = document.getElementById("promoVideo");
-    const tapText = document.getElementById("tapText");
+    const tapNotif = document.getElementById("tapNotif");
 
+    // Deteksi HP vs TV
+    function detectDevice() {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isSmallScreen = window.innerWidth < 900;
+
+      if (isPortrait || isSmallScreen) {
+        document.body.classList.add("mobile");
+      }
+    }
+
+    detectDevice();
+
+    // Aktifkan suara
     function enableSound() {
       video.muted = false;
       video.play();
-      tapText.style.display = "none";
+      tapNotif.style.display = "none";
+      enterFullscreen();
     }
 
     document.body.addEventListener("click", enableSound);
     document.body.addEventListener("touchstart", enableSound);
+
+    // Fullscreen kiosk
+    function enterFullscreen() {
+      const elem = document.documentElement;
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
   </script>
 
 </body>
 </html>
-
