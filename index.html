@@ -115,3 +115,106 @@
       top: -40px;
       width: 18px;
       height: 18px;
+      background: radial-gradient(circle at 30% 30%, #ffd1dc, #d97a8c);
+      border-radius: 50% 50% 50% 0;
+      opacity: 0.8;
+      z-index: 3;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.3;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video -->
+  <video id="promoVideo" autoplay muted loop playsinline>
+    <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
+  </video>
+
+  <div class="color-overlay"></div>
+
+  <!-- Logo -->
+  <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="FIOR Logo">
+
+  <!-- Teks -->
+  <div class="valentine-text">
+    <div class="line line1">
+      Untuk perasaan yang tak bisa dijelaskan,
+    </div>
+    <div class="line line2">
+      biarkan bunga yang menyampaikannya.
+    </div>
+    <div class="line line3">
+      HAPPY VALENTINE’S DAY
+    </div>
+  </div>
+
+  <!-- Notif -->
+  <div class="tap-notif" id="tapNotif">
+    🔊 Sentuh layar untuk suara
+  </div>
+
+  <script>
+    const video = document.getElementById("promoVideo");
+    const tapNotif = document.getElementById("tapNotif");
+
+    function detectDevice() {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isSmallScreen = window.innerWidth < 900;
+      if (isPortrait || isSmallScreen) {
+        document.body.classList.add("mobile");
+      }
+    }
+    detectDevice();
+
+    function enableSound() {
+      video.muted = false;
+      video.play();
+      tapNotif.style.display = "none";
+      enterFullscreen();
+    }
+
+    document.body.addEventListener("click", enableSound);
+    document.body.addEventListener("touchstart", enableSound);
+
+    function enterFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) elem.requestFullscreen();
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    }
+
+    /* Kelopak bunga untuk HP */
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.classList.add("petal");
+
+      const startX = Math.random() * window.innerWidth;
+      const duration = 6000 + Math.random() * 6000;
+
+      petal.style.left = startX + "px";
+      petal.style.animation = `fall ${duration}ms linear forwards`;
+
+      document.body.appendChild(petal);
+
+      setTimeout(() => {
+        petal.remove();
+      }, duration);
+    }
+
+    setInterval(createPetal, 800);
+  </script>
+
+</body>
+</html>
