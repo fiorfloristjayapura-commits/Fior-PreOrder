@@ -28,34 +28,20 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: black;
-      z-index: 1;
       object-fit: cover;
+      z-index: 1;
     }
 
     body.mobile video {
       object-fit: contain;
     }
 
-    .color-overlay {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.2),
-        rgba(217,122,140,0.25)
-      );
-      z-index: 2;
-      pointer-events: none;
-    }
-
     .logo {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 110px;
-      z-index: 8;
-      opacity: 0.95;
+      top: 15px;
+      left: 15px;
+      width: 90px;
+      z-index: 10;
     }
 
     /* Amplop */
@@ -64,9 +50,14 @@
       bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
-      width: 280px;
-      height: 180px;
+      width: 260px;
+      height: 160px;
       z-index: 6;
+    }
+
+    body.mobile .envelope {
+      width: 220px;
+      height: 140px;
     }
 
     .envelope-body {
@@ -102,25 +93,22 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%) translateY(100%);
-      width: 240px;
-      padding: 25px 20px;
-      background: rgba(0, 0, 0, 0.65);
+      width: 220px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
       border: 2px solid rgba(232,165,181,0.8);
       border-radius: 15px;
       backdrop-filter: blur(10px);
       text-align: center;
       animation: riseCard 1.5s ease forwards;
       animation-delay: 2s;
+      z-index: 7;
     }
 
     @keyframes riseCard {
       to {
-        transform: translateX(-50%) translateY(-60%);
+        transform: translateX(-50%) translateY(-70%);
       }
-    }
-
-    .valentine-text {
-      text-align: center;
     }
 
     .line {
@@ -130,10 +118,10 @@
       text-shadow: 0 0 20px rgba(217,122,140,0.6);
     }
 
-    .line1 { font-size: 18px; animation-delay: 2.5s; }
-    .line2 { font-size: 18px; margin-top: 6px; animation-delay: 3.5s; }
+    .line1 { font-size: 16px; animation-delay: 2.5s; }
+    .line2 { font-size: 16px; margin-top: 6px; animation-delay: 3.5s; }
     .line3 {
-      font-size: 16px;
+      font-size: 15px;
       margin-top: 12px;
       letter-spacing: 2px;
       animation-delay: 4.5s;
@@ -145,6 +133,30 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Sparkle */
+    .sparkle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px white;
+      animation: sparkleAnim 1.2s ease-out forwards;
+      z-index: 9;
+    }
+
+    @keyframes sparkleAnim {
+      from {
+        transform: scale(0);
+        opacity: 1;
+      }
+      to {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    /* Notif */
     .tap-notif {
       position: fixed;
       bottom: 20px;
@@ -154,75 +166,45 @@
       padding: 10px 16px;
       border-radius: 20px;
       font-size: 14px;
-      z-index: 9;
+      z-index: 10;
       animation: fadeBlink 2s infinite;
-      box-shadow: 0 0 15px rgba(217,122,140,0.6);
     }
 
     @keyframes fadeBlink {
       0%,100% { opacity: 1; }
       50% { opacity: 0.6; }
     }
-
-    /* Kelopak */
-    .petal {
-      position: fixed;
-      top: -40px;
-      width: 18px;
-      height: 18px;
-      background: radial-gradient(circle at 30% 30%, #ffd1dc, #d97a8c);
-      border-radius: 50% 50% 50% 0;
-      opacity: 0.8;
-      z-index: 4;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.3;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Video -->
   <video id="promoVideo" autoplay muted loop playsinline>
     <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
   </video>
 
-  <div class="color-overlay"></div>
+  <audio id="openSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c7e2f6c6f.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- Logo -->
-  <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="FIOR Logo">
+  <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
 
-  <!-- Amplop + kartu -->
   <div class="envelope">
     <div class="envelope-body"></div>
     <div class="envelope-flap"></div>
 
-    <div class="card-frame">
-      <div class="valentine-text">
-        <div class="line line1">
-          Untuk perasaan yang tak bisa dijelaskan,
-        </div>
-        <div class="line line2">
-          biarkan bunga yang menyampaikannya.
-        </div>
-        <div class="line line3">
-          HAPPY VALENTINE’S DAY
-        </div>
+    <div class="card-frame" id="card">
+      <div class="line line1">
+        Untuk perasaan yang tak bisa dijelaskan,
+      </div>
+      <div class="line line2">
+        biarkan bunga yang menyampaikannya.
+      </div>
+      <div class="line line3">
+        HAPPY VALENTINE’S DAY
       </div>
     </div>
   </div>
 
-  <!-- Notif -->
   <div class="tap-notif" id="tapNotif">
     🔊 Sentuh layar untuk suara
   </div>
@@ -230,6 +212,7 @@
   <script>
     const video = document.getElementById("promoVideo");
     const tapNotif = document.getElementById("tapNotif");
+    const openSound = document.getElementById("openSound");
 
     function detectDevice() {
       const isPortrait = window.innerHeight > window.innerWidth;
@@ -244,38 +227,25 @@
       video.muted = false;
       video.play();
       tapNotif.style.display = "none";
-      enterFullscreen();
+      openSound.play();
+
+      setTimeout(createSparkles, 2000);
     }
 
     document.body.addEventListener("click", enableSound);
     document.body.addEventListener("touchstart", enableSound);
 
-    function enterFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) elem.requestFullscreen();
-      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    /* Sparkle effect */
+    function createSparkles() {
+      for (let i = 0; i < 20; i++) {
+        const s = document.createElement("div");
+        s.classList.add("sparkle");
+        s.style.left = (window.innerWidth / 2 + (Math.random() * 120 - 60)) + "px";
+        s.style.top = (window.innerHeight / 2 + (Math.random() * 120 - 60)) + "px";
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 1200);
+      }
     }
-
-    /* Kelopak bunga */
-    function createPetal() {
-      const petal = document.createElement("div");
-      petal.classList.add("petal");
-
-      const startX = Math.random() * window.innerWidth;
-      const duration = 6000 + Math.random() * 6000;
-
-      petal.style.left = startX + "px";
-      petal.style.animation = `fall ${duration}ms linear forwards`;
-
-      document.body.appendChild(petal);
-
-      setTimeout(() => {
-        petal.remove();
-      }, duration);
-    }
-
-    setInterval(createPetal, 800);
   </script>
 
 </body>
