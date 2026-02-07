@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Scan QR Display</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
     body {
@@ -11,29 +11,33 @@
       background: black;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      height: 100vh;
+      width: 100vw;
     }
 
     video {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain; /* autofit untuk smartphone */
+      background: black;
       z-index: 1;
     }
 
     .overlay {
       position: fixed;
-      bottom: 40px;
+      bottom: 30px;
       width: 100%;
       text-align: center;
       color: white;
-      font-size: 36px;
+      font-size: 20px;
       font-weight: bold;
       z-index: 2;
-      text-shadow: 0 0 15px rgba(0,0,0,0.8);
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
       animation: blink 1.5s infinite;
+      padding: 10px;
     }
 
     @keyframes blink {
@@ -44,13 +48,27 @@
 </head>
 <body>
 
-  <video autoplay muted loop playsinline>
+  <video id="promoVideo" autoplay muted loop playsinline>
     <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
   </video>
 
-  <div class="overlay">
-    SCAN QR UNTUK INFO
+  <div class="overlay" id="tapText">
+    SENTUH LAYAR UNTUK AKTIFKAN SUARA
   </div>
+
+  <script>
+    const video = document.getElementById("promoVideo");
+    const tapText = document.getElementById("tapText");
+
+    function enableSound() {
+      video.muted = false;
+      video.play();
+      tapText.style.display = "none";
+    }
+
+    document.body.addEventListener("click", enableSound);
+    document.body.addEventListener("touchstart", enableSound);
+  </script>
 
 </body>
 </html>
