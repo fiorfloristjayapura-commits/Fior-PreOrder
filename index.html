@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Scan QR Display</title>
+  <title>Valentine Display</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
@@ -10,9 +10,10 @@
       margin: 0;
       background: black;
       overflow: hidden;
-      font-family: Arial, sans-serif;
+      font-family: "Georgia", serif;
       height: 100vh;
       width: 100vw;
+      color: white;
     }
 
     video {
@@ -26,9 +27,40 @@
       object-fit: cover;
     }
 
-    /* Mode smartphone */
     body.mobile video {
       object-fit: contain;
+    }
+
+    /* Ucapan Valentine */
+    .valentine-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+      max-width: 80%;
+      animation: fadeIn 2s ease;
+    }
+
+    .valentine-text p {
+      font-size: 28px;
+      line-height: 1.5;
+      margin: 0;
+      text-shadow: 0 0 15px rgba(0,0,0,0.8);
+    }
+
+    .valentine-text span {
+      display: block;
+      margin-top: 15px;
+      font-size: 20px;
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
     }
 
     /* Notif kecil */
@@ -58,6 +90,16 @@
     <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
   </video>
 
+  <!-- Ucapan Valentine -->
+  <div class="valentine-text">
+    <p>
+      Untuk perasaan yang tak bisa dijelaskan,<br>
+      biarkan bunga yang menyampaikannya.
+    </p>
+    <span>HAPPY VALENTINE’S DAY</span>
+  </div>
+
+  <!-- Notif suara -->
   <div class="tap-notif" id="tapNotif">
     🔊 Sentuh layar untuk suara
   </div>
@@ -66,7 +108,6 @@
     const video = document.getElementById("promoVideo");
     const tapNotif = document.getElementById("tapNotif");
 
-    // Deteksi HP vs TV
     function detectDevice() {
       const isPortrait = window.innerHeight > window.innerWidth;
       const isSmallScreen = window.innerWidth < 900;
@@ -78,7 +119,6 @@
 
     detectDevice();
 
-    // Aktifkan suara
     function enableSound() {
       video.muted = false;
       video.play();
@@ -89,7 +129,6 @@
     document.body.addEventListener("click", enableSound);
     document.body.addEventListener("touchstart", enableSound);
 
-    // Fullscreen kiosk
     function enterFullscreen() {
       const elem = document.documentElement;
 
