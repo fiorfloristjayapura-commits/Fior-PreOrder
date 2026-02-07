@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Valentine Display FIOR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <style>
     :root {
       --fior-pink: #e8a5b5;
@@ -11,22 +12,14 @@
       --fior-soft: #fff4f6;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      padding: 0;
       background: black;
       overflow: hidden;
       font-family: "Georgia", serif;
       height: 100vh;
       width: 100vw;
       color: var(--fior-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     video {
@@ -40,37 +33,31 @@
       object-fit: cover;
     }
 
-    /* Responsivitas untuk mobile */
-    @media (max-width: 900px), (orientation: portrait) {
-      video {
-        object-fit: contain;
-      }
+    body.mobile video {
+      object-fit: contain;
     }
 
-    /* Overlay warna */
     .color-overlay {
       position: fixed;
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.2),
-        rgba(217, 122, 140, 0.25)
+        rgba(0,0,0,0.2),
+        rgba(217,122,140,0.25)
       );
       z-index: 2;
       pointer-events: none;
     }
 
-    /* Logo */
     .logo {
       position: fixed;
       top: 20px;
       left: 20px;
-      width: 120px;
+      width: 110px;
       z-index: 5;
       opacity: 0.95;
     }
 
-    /* Teks Valentine */
     .valentine-text {
       position: fixed;
       top: 50%;
@@ -79,29 +66,19 @@
       text-align: center;
       z-index: 4;
       max-width: 80%;
-      width: 100%;
     }
 
     .line {
       opacity: 0;
       transform: translateY(20px);
       animation: fadeUp 1s ease forwards;
-      text-shadow: 0 0 20px rgba(217, 122, 140, 0.6);
+      text-shadow: 0 0 20px rgba(217,122,140,0.6);
     }
 
-    .line1 {
-      font-size: clamp(24px, 5vw, 30px);
-      animation-delay: 0.5s;
-    }
-
-    .line2 {
-      font-size: clamp(24px, 5vw, 30px);
-      margin-top: 10px;
-      animation-delay: 1.5s;
-    }
-
+    .line1 { font-size: 28px; animation-delay: 0.5s; }
+    .line2 { font-size: 28px; margin-top: 10px; animation-delay: 1.5s; }
     .line3 {
-      font-size: clamp(18px, 4vw, 22px);
+      font-size: 20px;
       margin-top: 25px;
       letter-spacing: 3px;
       animation-delay: 2.5s;
@@ -110,139 +87,31 @@
     }
 
     @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Notifikasi tap */
     .tap-notif {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: rgba(217, 122, 140, 0.9);
+      background: rgba(217,122,140,0.9);
       color: white;
       padding: 10px 16px;
       border-radius: 20px;
       font-size: 14px;
       z-index: 6;
       animation: fadeBlink 2s infinite;
-      box-shadow: 0 0 15px rgba(217, 122, 140, 0.6);
-      display: block;
+      box-shadow: 0 0 15px rgba(217,122,140,0.6);
     }
 
     @keyframes fadeBlink {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.6;
-      }
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     /* Kelopak bunga */
     .petal {
       position: fixed;
       top: -40px;
-      width: 20px;
-      height: 20px;
-      background: radial-gradient(circle at 30% 30%, #ffd1dc, #d97a8c);
-      border-radius: 50% 50% 50% 0;
-      opacity: 0.8;
-      z-index: 3;
-      animation: fall linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.4;
-      }
-    }
-  </style>
-</head>
-<body>
-  <video id="promoVideo" autoplay muted loop playsinline>
-    <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/3e546b4b283f845d0c62b59cb52995b9f8ebdf62/aldo.mp4" type="video/mp4">
-    <!-- Fallback jika video tidak dimuat -->
-    <p>Video tidak dapat dimuat. Pastikan koneksi internet Anda stabil.</p>
-  </video>
-
-  <div class="color-overlay"></div>
-
-  <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo FIOR" loading="lazy">
-
-  <div class="valentine-text">
-    <div class="line line1">
-      Untuk perasaan yang tak bisa dijelaskan,
-    </div>
-    <div class="line line2">
-      biarkan bunga yang menyampaikannya.
-    </div>
-    <div class="line line3">
-      HAPPY VALENTINE’S DAY
-    </div>
-  </div>
-
-  <div class="tap-notif" id="tapNotif">
-    🔊 Sentuh layar untuk suara
-  </div>
-
-  <script>
-    // Elemen DOM
-    const video = document.getElementById("promoVideo");
-    const tapNotif = document.getElementById("tapNotif");
-
-    // Fungsi untuk mengaktifkan suara dan fullscreen
-    function enableSound() {
-      if (video.muted) {
-        video.muted = false;
-        video.play().catch(error => {
-          console.warn("Video play error:", error);
-        });
-        tapNotif.style.display = "none";
-        enterFullscreen();
-      }
-    }
-
-    // Event listeners untuk tap/click
-    document.body.addEventListener("click", enableSound);
-    document.body.addEventListener("touchstart", enableSound, { passive: true });
-
-    // Fungsi untuk masuk fullscreen
-    function enterFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen().catch(err => console.warn("Fullscreen error:", err));
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-      }
-    }
-
-    // Generate kelopak bunga
-    function createPetals() {
-      const petalCount = 15;
-      for (let i = 0; i < petalCount; i++) {
-        const petal = document.createElement("div");
-        petal.classList.add("petal");
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.animationDuration = (6 + Math.random() * 6) + "s";
-        petal.style.opacity = 0.4 + Math.random() * 0.6;
-        document.body.appendChild(petal);
-      }
-    }
-
-    // Inisialisasi
-    createPetals();
-
-    // Handle resize untuk responsivitas (opsional, karena sudah ada CSS media query)
-    window.addEventListener("resize", () => {
-      // Deteksi ulang jika diperlukan, tapi CSS sudah menangani
-    });
-  </script>
-</body>
-</html>
+      width: 18px;
+      height: 18px;
