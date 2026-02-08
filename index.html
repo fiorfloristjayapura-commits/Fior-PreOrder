@@ -15,29 +15,31 @@ body{
   align-items:center;
   justify-content:center;
   font-family:Georgia,serif;
-  background:linear-gradient(135deg,#1a0a0a,#000);
-  padding:20px;
-  touch-action: manipulation; /* untuk mencegah zoom berlebihan */
-  -webkit-tap-highlight-color: transparent; /* hapus highlight biru saat tap */
+  background:#000;
+  padding:15px;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
 /* judul */
 .title{
   color:#d4af37;
-  font-size:clamp(20px, 5vw, 24px); /* Responsive font size */
-  margin-bottom:20px;
+  font-size:22px;
+  margin-bottom:15px;
   text-align:center;
-  text-shadow:0 0 10px rgba(212, 175, 55, 0.5);
+  font-weight:bold;
+  text-shadow:0 0 5px rgba(212, 175, 55, 0.5);
 }
 
-/* kartu */
+/* kartu - diperkecil untuk Android */
 .card{
-  width:min(90vw, 320px); /* Lebih responsive */
+  width:min(88vw, 300px);
   aspect-ratio:3/4;
-  border-radius:22px;
-  padding:10px;
-  background:linear-gradient(145deg,#8f6e1d,#d4af37,#fff1b0,#caa64b,#8f6e1d);
-  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  border-radius:16px;
+  padding:8px;
+  background:linear-gradient(145deg,#8f6e1d,#d4af37,#fff1b0);
+  box-shadow:0 10px 25px rgba(0,0,0,0.5);
   position:relative;
 }
 
@@ -45,16 +47,27 @@ body{
   position:relative;
   width:100%;
   height:100%;
-  border-radius:18px;
+  border-radius:14px;
   overflow:hidden;
   background:#000;
+  will-change:transform; /* Optimasi Android */
+}
+
+/* Video container */
+.video-container{
+  width:100%;
+  height:60%;
+  position:relative;
+  overflow:hidden;
 }
 
 video{
   width:100%;
-  height:60%;
+  height:100%;
   object-fit:cover;
-  display:block; /* Hindari space bawah di video */
+  display:block;
+  background:#000;
+  transform:translateZ(0); /* Hardware acceleration untuk Android */
 }
 
 /* logo */
@@ -62,11 +75,12 @@ video{
   position:absolute;
   top:10px;
   right:10px;
-  width:50px;
-  height:50px;
-  opacity:.8;
+  width:45px;
+  height:45px;
+  opacity:.7;
   object-fit:contain;
   z-index:2;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,0.5));
 }
 
 /* teks */
@@ -75,8 +89,8 @@ video{
   bottom:0;
   width:100%;
   height:40%;
-  padding:16px;
-  background:linear-gradient(to bottom,transparent,rgba(0,0,0,0.9));
+  padding:12px;
+  background:linear-gradient(to bottom,transparent,rgba(0,0,0,0.95));
   text-align:center;
   display:flex;
   flex-direction:column;
@@ -85,38 +99,50 @@ video{
   z-index:1;
 }
 
-.line1{color:#fff;font-size:14px; margin-bottom:4px;}
-.nama{
-  color:#fff1b0;
-  font-size:clamp(20px, 6vw, 22px); /* Responsive */
-  font-weight:bold;
-  margin:5px 0;
-  text-shadow:0 0 8px rgba(255, 241, 176, 0.5);
-  word-break:break-word; /* Mencegah overflow nama panjang */
-  padding:0 10px;
-}
-.pesan{
-  color:#e8a5b5;
-  font-size:clamp(13px, 4vw, 14px); /* Responsive */
-  margin-top:8px;
-  padding:0 10px;
-  word-break:break-word; /* Mencegah overflow pesan panjang */
+.line1{
+  color:#fff;
+  font-size:13px;
+  margin-bottom:3px;
+  opacity:0.9;
 }
 
-/* lock */
+.nama{
+  color:#fff1b0;
+  font-size:20px;
+  font-weight:bold;
+  margin:4px 0;
+  text-shadow:0 0 5px rgba(255, 241, 176, 0.5);
+  word-break:break-word;
+  padding:0 8px;
+  max-width:100%;
+}
+
+.pesan{
+  color:#e8a5b5;
+  font-size:13px;
+  margin-top:6px;
+  padding:0 8px;
+  word-break:break-word;
+  max-width:100%;
+}
+
+/* lock screen */
 .lock{
   position:absolute;
-  inset:0;
-  background:linear-gradient(145deg, rgba(0,0,0,0.9), rgba(20,20,20,0.95));
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.95);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  z-index:3;
-  transition:opacity 0.5s ease;
-  -webkit-touch-callout: none; /* iOS Safari */
-  user-select: none; /* Nonaktifkan teks selection */
+  z-index:10;
+  transition:opacity 0.4s ease;
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
 }
 
 .lock.hidden{
@@ -126,67 +152,89 @@ video{
 }
 
 .heart{
-  font-size:clamp(60px, 15vw, 70px); /* Responsive */
-  animation:pulse 1.5s infinite ease-in-out;
-  filter:drop-shadow(0 0 10px rgba(232, 165, 181, 0.5));
+  font-size:60px;
+  animation:pulse 1.8s infinite ease-in-out;
+  filter:drop-shadow(0 0 8px rgba(232, 165, 181, 0.5));
 }
 
 @keyframes pulse{
   0%,100%{transform:scale(1);}
-  50%{transform:scale(1.2);}
+  50%{transform:scale(1.15);}
 }
 
 .hint{
   color:#fff;
-  font-size:clamp(13px, 4vw, 14px); /* Responsive */
-  margin-top:15px;
-  text-shadow:0 0 5px rgba(255,255,255,0.3);
+  font-size:13px;
+  margin-top:12px;
+  text-shadow:0 0 3px rgba(255,255,255,0.3);
+  font-weight:500;
 }
 
-/* Media queries untuk berbagai device */
+/* Media queries untuk Android performance */
 @media (max-width: 480px) {
   .card {
-    padding:8px;
+    width:92vw;
+    padding:6px;
+  }
+  
+  .title {
+    font-size:20px;
+    margin-bottom:12px;
+  }
+  
+  .video-container {
+    height:58%;
   }
   
   .text {
-    padding:12px;
-  }
-  
-  .logo {
-    width:45px;
-    height:45px;
-    top:8px;
-    right:8px;
-  }
-}
-
-@media (max-width: 320px) {
-  .card {
-    width:95vw;
+    height:42%;
+    padding:10px;
   }
   
   .nama {
     font-size:18px;
   }
   
-  .pesan {
-    font-size:12px;
+  .logo {
+    width:40px;
+    height:40px;
+    top:8px;
+    right:8px;
   }
 }
 
-/* Fix untuk iOS Safari */
-@supports (-webkit-touch-callout: none) {
+/* Disable animations jika baterai rendah */
+@media (prefers-reduced-motion: reduce) {
+  .heart {
+    animation:none;
+  }
+}
+
+/* Optimasi untuk perangkat rendah */
+@media (max-width: 360px) {
   body {
-    -webkit-user-select: none;
+    padding:10px;
   }
   
   .card {
-    -webkit-backface-visibility: hidden;
+    width:96vw;
+    border-radius:14px;
+  }
+  
+  .inner {
+    border-radius:12px;
+  }
+  
+  .title {
+    font-size:18px;
   }
   
   .heart {
-    -webkit-transform: translateZ(0);
+    font-size:50px;
+  }
+  
+  .hint {
+    font-size:12px;
   }
 }
 </style>
@@ -194,19 +242,21 @@ video{
 
 <body>
 
-<div class="title">Happy Valentine’s Day</div>
+<div class="title">Happy Valentine's Day</div>
 
 <div class="card">
 <div class="inner">
 
-<video id="video" loop playsinline preload="auto" webkit-playsinline>
-  <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div class="video-container">
+  <video id="video" loop playsinline preload="metadata">
+    <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
+  </video>
+</div>
 
 <img class="logo" 
 src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png"
-alt="Fior Florist Logo">
+alt="Fior Florist Logo"
+loading="lazy">
 
 <div class="text">
   <div class="line1">Untukmu,</div>
@@ -222,11 +272,12 @@ alt="Fior Florist Logo">
 </div>
 </div>
 
-<audio id="sound" preload="auto">
+<audio id="sound" preload="none">
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+// Elements
 const video = document.getElementById("video");
 const lock = document.getElementById("lock");
 const sound = document.getElementById("sound");
@@ -234,38 +285,71 @@ const namaEl = document.getElementById("nama");
 const pesanEl = document.getElementById("pesan");
 
 let opened = false;
-let videoLoaded = false;
+let videoAttempted = false;
 
-// Check apakah video sudah siap
-video.addEventListener('loadeddata', () => {
-  videoLoaded = true;
-  console.log('Video loaded successfully');
+// Cek jika device Android
+const isAndroid = /android/i.test(navigator.userAgent);
+const isLowEndDevice = /(android.*mobile|mobile.*android)/i.test(navigator.userAgent) && 
+  (/low|slow|old|cheap/i.test(navigator.userAgent) || 
+   window.innerWidth <= 360 || 
+   'hardwareConcurrency' in navigator && navigator.hardwareConcurrency <= 4);
+
+console.log('Device Info:', {
+  isAndroid,
+  isLowEndDevice,
+  userAgent: navigator.userAgent.substring(0, 100),
+  cores: navigator.hardwareConcurrency
 });
 
-video.addEventListener('error', (e) => {
-  console.error('Video error:', e);
-  // Fallback jika video gagal load
-  const videoContainer = document.querySelector('.inner');
-  const fallbackText = document.createElement('div');
-  fallbackText.style.cssText = `
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #d4af37;
-    font-size: 18px;
-    text-align: center;
-  `;
-  fallbackText.textContent = '🎵 Happy Valentine\'s Day! 🎵';
-  videoContainer.appendChild(fallbackText);
-});
+// Optimasi untuk device rendah
+if (isLowEndDevice) {
+  console.log('Low-end device detected, optimizing...');
+  // Matikan beberapa efek visual
+  document.querySelector('.heart').style.animation = 'none';
+  // Gunakan preload metadata saja
+  video.preload = 'metadata';
+}
 
 // Ambil parameter URL
 const params = new URLSearchParams(window.location.search);
-if(params.get("to")) namaEl.textContent = decodeURIComponent(params.get("to"));
-if(params.get("msg")) pesanEl.textContent = decodeURIComponent(params.get("msg"));
+if(params.get("to")) {
+  namaEl.textContent = decodeURIComponent(params.get("to"));
+}
+if(params.get("msg")) {
+  pesanEl.textContent = decodeURIComponent(params.get("msg"));
+}
 
-// Fungsi untuk unlock dengan handling yang lebih baik
+// Load video secara manual (tidak autoplay)
+function loadVideo() {
+  if (videoAttempted) return;
+  videoAttempted = true;
+  
+  video.load();
+  video.muted = true;
+  
+  // Set timeout untuk mencegah blocking UI
+  setTimeout(() => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('Auto-play failed, will play on user interaction:', error);
+        // Biarkan gagal, akan diputar nanti
+      });
+    }
+  }, 500);
+}
+
+// Tunggu DOM siap
+document.addEventListener('DOMContentLoaded', function() {
+  // Delay loading video untuk Android
+  if (isAndroid) {
+    setTimeout(loadVideo, 1000);
+  } else {
+    loadVideo();
+  }
+});
+
+// Fungsi untuk unlock
 function openCard(){
   if(opened) return;
   opened = true;
@@ -274,6 +358,7 @@ function openCard(){
   
   // Enable audio pada video
   video.muted = false;
+  video.currentTime = 0;
   
   // Coba play video dengan audio
   const playPromise = video.play();
@@ -282,90 +367,89 @@ function openCard(){
     playPromise.then(() => {
       console.log('Video playing with sound');
     }).catch(error => {
-      console.log('Video play with sound failed, trying muted:', error);
-      // Fallback: play tanpa audio
+      console.log('Video play with sound failed:', error);
+      // Fallback untuk Android: coba muted dulu
       video.muted = true;
       video.play().then(() => {
-        console.log('Video playing muted');
+        console.log('Video playing muted as fallback');
+        // Coba unmute setelah 1 detik
+        setTimeout(() => {
+          video.muted = false;
+        }, 1000);
       }).catch(e => {
         console.log('Fallback also failed:', e);
       });
     });
   }
   
-  // Coba play sound effect
-  sound.currentTime = 0;
-  sound.play().catch(e => {
-    console.log('Sound play failed:', e);
-  });
+  // Play sound effect (non-blocking)
+  setTimeout(() => {
+    sound.currentTime = 0;
+    sound.volume = 0.7; // Kurangi volume untuk Android
+    sound.play().catch(e => {
+      console.log('Sound play failed (non-critical):', e);
+    });
+  }, 300);
   
-  // Hide lock screen
+  // Hide lock screen dengan animasi sederhana
+  lock.style.transition = 'opacity 0.3s ease';
   lock.classList.add("hidden");
   
-  // Untuk iOS, tambahkan event listener global untuk unmute
-  document.addEventListener('touchstart', handleGlobalUnmute, { once: true });
-}
-
-// Fungsi untuk unmute video setelah interaksi global (untuk iOS)
-function handleGlobalUnmute() {
-  if (video.muted) {
-    video.muted = false;
-    console.log('Video unmuted via global touch');
-  }
+  // Cleanup untuk performance
+  setTimeout(() => {
+    lock.style.display = 'none';
+  }, 500);
 }
 
 // Event listeners untuk lock screen
 lock.addEventListener("click", openCard);
+
+// Touch event untuk Android
 lock.addEventListener("touchstart", function(e) {
-  e.preventDefault(); // Mencegah default behavior yang bisa mengganggu
+  e.preventDefault();
+  // Haptic feedback jika tersedia
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
   openCard();
 }, {passive: false});
 
-// Preload video muted (untuk iOS)
-window.addEventListener('DOMContentLoaded', () => {
-  // Set video ke muted untuk iOS
-  video.muted = true;
-  video.playsInline = true;
-  
-  // Coba play video muted (iOS memerlukan ini)
-  const playMutedPromise = video.play();
-  if (playMutedPromise !== undefined) {
-    playMutedPromise.catch(error => {
-      console.log('Auto-play muted video failed:', error);
-    });
-  }
-});
-
-// Pencegahan zoom double-tap pada iOS
+// Pencegahan zoom dan gesture yang berat
 let lastTouchEnd = 0;
 document.addEventListener('touchend', function(event) {
-  const now = (new Date()).getTime();
+  const now = Date.now();
   if (now - lastTouchEnd <= 300) {
     event.preventDefault();
   }
   lastTouchEnd = now;
 }, false);
 
-// Pencegahan pinch zoom
 document.addEventListener('gesturestart', function(e) {
   e.preventDefault();
 });
 
-// Pastikan video selalu dalam viewport (untuk iOS)
-window.addEventListener('scroll', function() {
-  video.style.transform = 'translateZ(0)';
+// Handle page visibility (pause video saat tab tidak aktif)
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden && !video.paused) {
+    video.pause();
+  } else if (!document.hidden && opened && video.paused) {
+    video.play().catch(e => console.log('Resume play failed:', e));
+  }
 });
 
-// Handle orientation change
-window.addEventListener('orientationchange', function() {
-  // Beri sedikit delay untuk memastikan orientasi sudah berubah
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-    if (video.paused && !opened) {
-      video.play().catch(e => console.log('Replay on orientation change failed:', e));
-    }
-  }, 100);
+// Optimasi memory untuk Android
+window.addEventListener('beforeunload', function() {
+  video.pause();
+  video.src = '';
+  video.load();
 });
+
+// Force garbage collection untuk Android (jika perlu)
+if (isAndroid && window.gc) {
+  setTimeout(() => {
+    window.gc();
+  }, 10000);
+}
 </script>
 
 </body>
