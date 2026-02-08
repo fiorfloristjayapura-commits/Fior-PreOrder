@@ -1,370 +1,515 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kartu Ucapan Valentine</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kartu Ucapan Valentine - Fior Florist</title>
+    
+    <style>
+        /* Reset dan Variabel Warna */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-:root {
-  --gold-dark: #8f6e1d;
-  --gold-main: #d4af37;
-  --gold-light: #fff1b0;
-  --gold-mid: #caa64b;
-  --pink-soft: #FFB6C1;
-  --pink-text: #e8a5b5;
-  --bg-start: #fff8e8;
-  --bg-end: #f3e6c8;
-}
+        :root {
+            --gold-dark: #8f6e1d;
+            --gold-main: #d4af37;
+            --gold-light: #fff1b0;
+            --gold-mid: #caa64b;
+            --pink-soft: #FFB6C1;
+            --pink-text: #e8a5b5;
+            --bg-start: #fff8e8;
+            --bg-end: #f3e6c8;
+            --overlay-dark: rgba(0, 0, 0, 0.85);
+        }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+        /* Body dan Layout Utama */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 15px;
+            font-family: "Georgia", "Times New Roman", serif;
+            background: radial-gradient(ellipse at 30% 20%, var(--bg-start), var(--bg-end) 70%);
+            -webkit-tap-highlight-color: transparent;
+        }
 
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  font-family: "Georgia", serif;
-  background: radial-gradient(circle at 30% 20%, var(--bg-start), var(--bg-end) 60%);
-}
+        /* Judul Halaman */
+        .page-title {
+            font-size: 24px;
+            color: var(--gold-main);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: normal;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);
+        }
 
-.title {
-  font-size: 26px;
-  color: var(--gold-main);
-  margin-bottom: 18px;
-  text-align: center;
-  text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.3);
-}
+        /* Container Kartu Utama */
+        .card-container {
+            width: 100%;
+            max-width: 340px;
+            perspective: 1000px;
+        }
 
-.card {
-  width: 90vw;
-  max-width: 340px;
-  aspect-ratio: 3/4;
-  border-radius: 26px;
-  padding: 13px;
-  background: linear-gradient(145deg, var(--gold-dark), var(--gold-main) 25%, var(--gold-light) 50%, var(--gold-mid) 70%, var(--gold-dark));
-  box-shadow: 
-    inset 0 4px 8px rgba(255, 255, 220, 0.7),
-    inset 0 -6px 12px rgba(80, 60, 10, 0.8),
-    0 20px 50px rgba(0, 0, 0, 0.35);
-}
+        /* Kartu dengan Efek Gold Gradient */
+        .card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            border-radius: 24px;
+            padding: 12px;
+            background: linear-gradient(145deg, 
+                var(--gold-dark) 0%, 
+                var(--gold-main) 25%, 
+                var(--gold-light) 50%, 
+                var(--gold-mid) 75%, 
+                var(--gold-dark) 100%);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.25),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5),
+                inset 0 -3px 8px rgba(80, 60, 10, 0.4);
+        }
 
-.inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #000;
-}
+        /* Inner Card - Area Konten */
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1a1a1a, #000);
+        }
 
-.video-container {
-  width: 100%;
-  height: 60%;
-  position: relative;
-  overflow: hidden;
-}
+        /* Area Video */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 58%;
+            overflow: hidden;
+        }
 
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-.logo {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 55px;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 5px;
-  border-radius: 50%;
-  z-index: 3;
-}
+        /* Logo Fior */
+        .brand-logo {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 6px;
+            z-index: 5;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
 
-.logo img {
-  width: 100%;
-  display: block;
-  border-radius: 50%;
-}
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
 
-.text-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  padding: 16px 14px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.92));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  z-index: 4;
-}
+        /* Area Teks dan Konten */
+        .content-area {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 42%;
+            padding: 20px 16px 16px;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                var(--overlay-dark) 30%, 
+                #000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            z-index: 4;
+        }
 
-.greeting-text {
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 4px;
-}
+        /* Komponen Teks */
+        .greeting-line {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
 
-.recipient-name {
-  font-size: 22px;
-  color: var(--gold-light);
-  font-weight: bold;
-  margin-bottom: 4px;
-}
+        .recipient-name {
+            font-size: 22px;
+            color: var(--gold-light);
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 8px rgba(255, 241, 176, 0.3);
+        }
 
-.message-text {
-  font-size: 14px;
-  color: var(--pink-text);
-  margin-bottom: 8px;
-}
+        .main-message {
+            font-size: 14px;
+            color: var(--pink-text);
+            font-style: italic;
+            margin-bottom: 10px;
+        }
 
-.quote-text {
-  font-size: 13px;
-  color: #fff;
-  padding: 7px 10px;
-  border: 1px solid var(--gold-main);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+        /* Quote dengan Efek Ketik */
+        .quote-container {
+            min-height: 20px;
+        }
 
-.quote-text.visible {
-  opacity: 1;
-}
+        .quote-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            padding: 8px 12px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
 
-.lock-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #000, #1a1a1a);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  cursor: pointer;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
+        .quote-text.visible {
+            opacity: 1;
+        }
 
-.lock-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
+        /* Lock Screen Overlay */
+        .lock-screen {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #0a0a0a, #1f1f1f);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: pointer;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            backdrop-filter: blur(8px);
+        }
 
-.lock-icon {
-  font-size: 56px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
+        .lock-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-.lock-icon.opening {
-  animation: unlock 0.6s ease-out forwards;
-}
+        /* Ikon Hati dengan Animasi */
+        .heart-icon {
+            font-size: 64px;
+            filter: drop-shadow(0 0 20px rgba(255, 105, 135, 0.5));
+            animation: heartbeat 1.5s ease-in-out infinite;
+            user-select: none;
+        }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-}
+        .heart-icon.opening {
+            animation: heartOpen 0.7s ease-out forwards;
+        }
 
-@keyframes unlock {
-  0% { transform: scale(1) rotate(0deg); }
-  40% { transform: scale(1.4) rotate(-10deg); }
-  70% { transform: scale(1.2) rotate(5deg); }
-  100% { transform: scale(0) rotate(0deg); opacity: 0; }
-}
+        @keyframes heartbeat {
+            0%, 100% { 
+                transform: scale(1); 
+            }
+            15% { 
+                transform: scale(1.15); 
+            }
+            30% { 
+                transform: scale(1); 
+            }
+            45% { 
+                transform: scale(1.1); 
+            }
+        }
 
-.tap-hint {
-  font-size: 13px;
-  color: #fff;
-  opacity: 0.7;
-  margin-top: 10px;
-  letter-spacing: 0.5px;
-}
+        @keyframes heartOpen {
+            0% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.5) rotate(15deg);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: scale(0) rotate(-30deg);
+                opacity: 0;
+            }
+        }
 
-/* Responsive adjustments */
-@media (max-width: 360px) {
-  .title {
-    font-size: 22px;
-  }
-  
-  .card {
-    max-width: 300px;
-  }
-  
-  .recipient-name {
-    font-size: 20px;
-  }
-  
-  .message-text {
-    font-size: 13px;
-  }
-}
+        /* Teks Petunjuk */
+        .tap-hint {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 16px;
+            letter-spacing: 1px;
+            animation: fadePulse 2s ease-in-out infinite;
+        }
 
-@media (min-width: 768px) {
-  .title {
-    font-size: 32px;
-    margin-bottom: 25px;
-  }
-  
-  .card {
-    max-width: 380px;
-    border-radius: 30px;
-    padding: 16px;
-  }
-  
-  .inner {
-    border-radius: 24px;
-  }
-  
-  .recipient-name {
-    font-size: 26px;
-  }
-  
-  .message-text {
-    font-size: 16px;
-  }
-  
-  .quote-text {
-    font-size: 14px;
-  }
-}
-</style>
+        @keyframes fadePulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            font-size: 11px;
+            color: var(--gold-main);
+            opacity: 0.6;
+            text-align: center;
+        }
+
+        /* Media Queries untuk Responsivitas */
+        @media (max-width: 360px) {
+            .page-title {
+                font-size: 20px;
+            }
+            
+            .card {
+                max-width: 300px;
+            }
+            
+            .recipient-name {
+                font-size: 19px;
+            }
+            
+            .main-message {
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .page-title {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+            
+            .card-container {
+                max-width: 420px;
+            }
+            
+            .card {
+                border-radius: 30px;
+                padding: 16px;
+            }
+            
+            .card-inner {
+                border-radius: 24px;
+            }
+            
+            .recipient-name {
+                font-size: 28px;
+            }
+            
+            .main-message {
+                font-size: 17px;
+            }
+            
+            .greeting-line {
+                font-size: 15px;
+            }
+            
+            .quote-text {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+            
+            .heart-icon {
+                font-size: 80px;
+            }
+        }
+
+        /* Support Dark Mode Sistem */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: radial-gradient(ellipse at 30% 20%, #2a2515, #1a1810 70%);
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1 class="title">Happy Valentine Day</h1>
+    <h1 class="page-title">Happy Valentine's Day</h1>
 
-<div class="card">
-  <div class="inner">
-    
-    <div class="video-container">
-      <video id="cardVideo" loop playsinline muted>
-        <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
-      </video>
-      
-      <div class="logo">
-        <img src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo Fior">
-      </div>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-inner">
+                
+                <!-- Area Video -->
+                <div class="video-wrapper">
+                    <video id="mainVideo" loop playsinline muted preload="metadata">
+                        <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
+                    </video>
+                    
+                    <!-- Logo -->
+                    <div class="brand-logo">
+                        <img src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo Fior Florist">
+                    </div>
+                </div>
+
+                <!-- Area Konten Teks -->
+                <div class="content-area">
+                    <p class="greeting-line">Untukmu,</p>
+                    <p class="recipient-name" id="recipientName">Nama Kamu</p>
+                    <p class="main-message" id="mainMessage">Happy Valentine's Day!</p>
+                    
+                    <div class="quote-container">
+                        <p class="quote-text" id="quoteText"></p>
+                    </div>
+                </div>
+
+                <!-- Lock Screen -->
+                <div class="lock-screen" id="lockScreen">
+                    <div class="heart-icon" id="heartIcon">❤️</div>
+                    <p class="tap-hint">Sentuh untuk membuka</p>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="text-overlay">
-      <p class="greeting-text">Untukmu,</p>
-      <p class="recipient-name" id="recipientName">Nama Kamu</p>
-      <p class="message-text" id="messageText">Happy Valentine's Day!</p>
-      <p class="quote-text" id="quoteText"></p>
-    </div>
+    <p class="footer">Fior Florist Jayapura</p>
 
-    <div class="lock-overlay" id="lockOverlay">
-      <div class="lock-icon" id="lockIcon">❤️</div>
-      <p class="tap-hint">Sentuh untuk membuka</p>
-    </div>
+    <!-- Audio untuk Sound Effect -->
+    <audio id="unlockSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
+    </audio>
 
-  </div>
-</div>
+    <script>
+        (function() {
+            'use strict';
 
-<audio id="openSound" preload="auto">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
-</audio>
+            // Element References
+            const video = document.getElementById('mainVideo');
+            const lockScreen = document.getElementById('lockScreen');
+            const heartIcon = document.getElementById('heartIcon');
+            const unlockSound = document.getElementById('unlockSound');
+            const quoteText = document.getElementById('quoteText');
+            const recipientName = document.getElementById('recipientName');
+            const mainMessage = document.getElementById('mainMessage');
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const video = document.getElementById('cardVideo');
-  const lockOverlay = document.getElementById('lockOverlay');
-  const lockIcon = document.getElementById('lockIcon');
-  const openSound = document.getElementById('openSound');
-  const quoteText = document.getElementById('quoteText');
-  const recipientName = document.getElementById('recipientName');
-  const messageText = document.getElementById('messageText');
+            // State
+            let isUnlocked = false;
 
-  // Get URL parameters
-  const params = new URLSearchParams(window.location.search);
-  const nameParam = params.get('to');
-  const messageParam = params.get('msg');
+            // Get URL Parameters
+            function getUrlParameter(name) {
+                const params = new URLSearchParams(window.location.search);
+                const value = params.get(name);
+                return value ? decodeURIComponent(value) : null;
+            }
 
-  // Set name and message from URL
-  if (nameParam) {
-    recipientName.textContent = decodeURIComponent(nameParam);
-  }
-  if (messageParam) {
-    messageText.textContent = decodeURIComponent(messageParam);
-  }
+            // Initialize Content
+            function initializeContent() {
+                const nameParam = getUrlParameter('to');
+                const messageParam = getUrlParameter('msg');
 
-  // Typing effect function
-  function typeWriter(text, element, speed = 50) {
-    if (!text) return;
-    
-    element.textContent = '';
-    element.classList.add('visible');
-    
-    let charIndex = 0;
-    
-    function typeChar() {
-      if (charIndex < text.length) {
-        element.textContent += text.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeChar, speed);
-      }
-    }
-    
-    typeChar();
-  }
+                if (nameParam) {
+                    recipientName.textContent = nameParam.trim();
+                }
+                if (messageParam) {
+                    mainMessage.textContent = messageParam.trim();
+                }
+            }
 
-  // Open card function
-  function unlockCard() {
-    if (lockOverlay.classList.contains('hidden')) return;
+            // Typing Effect
+            function typeWriter(text, element, typingSpeed = 50) {
+                if (!text || !element) return;
 
-    // Play sound
-    openSound.currentTime = 0;
-    openSound.play().catch(function(e) {
-      console.log('Audio play failed:', e);
-    });
+                element.textContent = '';
+                element.classList.add('visible');
 
-    // Start unlock animation
-    lockIcon.classList.add('opening');
+                let charIndex = 0;
 
-    // Play video with sound
-    video.muted = false;
-    video.play().catch(function(e) {
-      console.log('Video play failed:', e);
-    });
+                function type() {
+                    if (charIndex < text.length) {
+                        element.textContent += text.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(type, typingSpeed);
+                    }
+                }
 
-    // Hide lock overlay and show quote
-    setTimeout(function() {
-      lockOverlay.classList.add('hidden');
-      typeWriter('Simply put, I love you more each day', quoteText);
-    }, 500);
-  }
+                type();
+            }
 
-  // Event listeners for unlocking
-  lockOverlay.addEventListener('click', unlockCard);
-  lockOverlay.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    unlockCard();
-  });
+            // Unlock Card Function
+            function unlockCard() {
+                if (isUnlocked) return;
+                isUnlocked = true;
 
-  // Keyboard support for accessibility
-  document.addEventListener('keydown', function(e) {
-    if (e.code === 'Space' || e.code === 'Enter') {
-      if (!lockOverlay.classList.contains('hidden')) {
-        unlockCard();
-      }
-    }
-  });
-});
-</script>
+                // Play unlock animation
+                heartIcon.classList.add('opening');
 
+                // Play sound
+                unlockSound.currentTime = 0;
+                const soundPromise = unlockSound.play();
+
+                if (soundPromise !== undefined) {
+                    soundPromise.catch(function(error) {
+                        console.log('Audio playback was prevented:', error);
+                    });
+                }
+
+                // Play video with sound
+                video.muted = false;
+                const videoPromise = video.play();
+
+                if (videoPromise !== undefined) {
+                    videoPromise.catch(function(error) {
+                        console.log('Video playback was prevented:', error);
+                    });
+                }
+
+                // Hide lock screen and show quote
+                setTimeout(function() {
+                    lockScreen.classList.add('hidden');
+                    typeWriter('Simply put, I love you more each day', quoteText);
+                }, 600);
+            }
+
+            // Event Listeners
+            function setupEventListeners() {
+                // Click and touch events
+                lockScreen.addEventListener('click', unlockCard);
+                lockScreen.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    unlockCard();
+                }, { passive: false });
+
+                // Keyboard accessibility
+                document.addEventListener('keydown', function(e) {
+                    if ((e.code === 'Space' || e.code === 'Enter') && !isUnlocked) {
+                        e.preventDefault();
+                        unlockCard();
+                    }
+                });
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    initializeContent();
+                    setupEventListeners();
+                });
+            } else {
+                initializeContent();
+                setupEventListeners();
+            }
+        })();
+    </script>
 </body>
 </html>
