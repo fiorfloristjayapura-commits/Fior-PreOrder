@@ -83,7 +83,7 @@ video {
   border-radius:50%;
 }
 
-/* LOVE LOCK SCREEN */
+/* LOVE LOCK */
 .lock-screen {
   position:absolute;
   inset:0;
@@ -101,7 +101,6 @@ video {
   pointer-events:none;
 }
 
-/* ikon love */
 .heart {
   font-size:60px;
   animation:heartPulse 1.5s infinite;
@@ -112,7 +111,6 @@ video {
   50% {transform:scale(1.2);}
 }
 
-/* animasi buka */
 .heart.open {
   animation:heartOpen 0.6s forwards;
 }
@@ -130,7 +128,7 @@ video {
 <div class="card">
   <div class="inner">
 
-    <video id="video" muted loop playsinline>
+    <video id="video" autoplay muted loop playsinline>
       <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
     </video>
 
@@ -162,16 +160,24 @@ const heart = document.getElementById("heart");
 const openSound = document.getElementById("openSound");
 
 function openCard() {
+
+  /* aktifkan suara video */
+  video.muted = false;
+  video.play().catch(()=>{});
+
+  /* mainkan efek suara */
+  openSound.currentTime = 0;
+  openSound.play().catch(()=>{});
+
+  /* animasi love */
   heart.classList.add("open");
 
   setTimeout(() => {
     lock.classList.add("hidden");
-    video.muted = false;
-    video.play();
-    openSound.play();
   }, 500);
 }
 
+/* sentuhan user */
 lock.addEventListener("click", openCard);
 lock.addEventListener("touchstart", openCard);
 
