@@ -12,8 +12,6 @@
   --gold3:#fff1b0;
   --gold4:#caa64b;
   --pink:#FFB6C1;
-  --blue:#87CEEB;
-  --green:#98FB98;
 }
 
 body {
@@ -26,22 +24,14 @@ body {
   padding:20px;
   font-family:"Georgia",serif;
   background:radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
-  overflow:hidden;
 }
 
-/* Judul di atas kartu */
+/* Judul */
 .title {
   font-size:28px;
   color:#d4af37;
-  text-shadow:0 0 10px rgba(212,175,55,0.8);
   margin-bottom:20px;
   text-align:center;
-  animation:fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(-20px);}
-  to {opacity:1; transform:translateY(0);}
 }
 
 /* kartu */
@@ -56,12 +46,6 @@ body {
     inset 0 4px 8px rgba(255,255,220,0.7),
     inset 0 -6px 12px rgba(80,60,10,0.8),
     0 20px 60px rgba(0,0,0,0.4);
-  position:relative;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
 }
 
 .inner {
@@ -90,34 +74,25 @@ video {
   display:flex;
   flex-direction:column;
   justify-content:center;
+  align-items:center;
   text-align:center;
 }
 
-.line1 {font-size:15px;color:#fff;text-shadow:0 0 5px rgba(255,255,255,0.5);}
-.nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;text-shadow:0 0 10px var(--gold2);}
-.pesan {font-size:15px;color:#e8a5b5;margin-top:6px;text-shadow:0 0 5px var(--pink);}
+.line1 {font-size:15px;color:#fff;}
+.nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;}
+.pesan {font-size:15px;color:#e8a5b5;margin-top:6px;}
 
-/* Quote auto-ketik */
+/* Quote */
 .quote {
-  position:absolute;
-  top:70%;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:16px;
+  font-size:14px;
   color:#fff;
-  text-shadow:0 0 5px var(--pink);
-  text-align:center;
+  margin-top:10px;
+  padding:8px 12px;
+  border:1px solid var(--gold2);
+  border-radius:8px;
+  background:rgba(0,0,0,0.6);
   opacity:0;
-  animation:fadeInQuote 1s ease-in-out 0.5s forwards;
-  border:2px solid var(--gold2);
-  border-radius:10px;
-  padding:10px;
-  background:rgba(0,0,0,0.7);
-  max-width:80%;
-}
-
-@keyframes fadeInQuote {
-  to {opacity:1;}
+  transition:0.5s;
 }
 
 /* logo */
@@ -129,9 +104,6 @@ video {
   background:rgba(0,0,0,0.35);
   padding:6px;
   border-radius:50%;
-  backdrop-filter:blur(4px);
-  box-shadow:0 0 15px rgba(255,220,120,0.6);
-  z-index:5;
 }
 
 /* LOVE LOCK */
@@ -145,7 +117,6 @@ video {
   justify-content:center;
   z-index:10;
   cursor:pointer;
-  transition:0.6s;
 }
 
 .lock-screen.hidden {
@@ -155,20 +126,19 @@ video {
 
 .icon {
   font-size:60px;
-  animation:heartPulse 1.5s infinite;
-  margin-bottom:10px;
+  animation:pulse 1.5s infinite;
 }
 
-@keyframes heartPulse {
+@keyframes pulse {
   0%,100% {transform:scale(1);}
   50% {transform:scale(1.2);}
 }
 
 .icon.open {
-  animation:heartOpen 0.6s forwards;
+  animation:open 0.6s forwards;
 }
 
-@keyframes heartOpen {
+@keyframes open {
   0% {transform:scale(1);}
   50% {transform:scale(1.5);}
   100% {transform:scale(0);opacity:0;}
@@ -178,66 +148,36 @@ video {
   font-size:14px;
   color:#fff;
   opacity:0.8;
-  text-align:center;
-  animation:pulseText 1.5s infinite;
+  margin-top:10px;
 }
-
-@keyframes pulseText {
-  0%,100% {opacity:0.8;}
-  50% {opacity:1;}
-}
-
-/* Elemen dekoratif untuk estetika */
-.decor {
-  position:absolute;
-  top:20px;
-  left:20px;
-  font-size:30px;
-  opacity:0.7;
-  animation:float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% {transform:translateY(0);}
-  50% {transform:translateY(-10px);}
-}
-
-/* Tema spesifik */
-.valentine .decor { color:var(--pink); }
-.birthday .decor { color:var(--blue); }
 </style>
 </head>
 
 <body>
 
-<!-- Judul di atas kartu -->
-<div class="title" id="title">Happy Valentine Day</div>
+<div class="title">Happy Valentine Day</div>
 
-<div class="card" id="card">
+<div class="card">
   <div class="inner">
 
-    <video id="video" loop playsinline>
+    <video id="video" loop playsinline muted>
       <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
     </video>
 
-    <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo FIOR">
+    <img class="logo"
+    src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
 
     <div class="text">
       <div class="line1">Untukmu,</div>
       <div class="nama" id="nama">Nama Kamu</div>
       <div class="pesan" id="pesan">Happy Valentine’s Day!</div>
+      <div class="quote" id="quote"></div>
     </div>
-
-    <!-- Quote auto-ketik -->
-    <div class="quote" id="quote"></div>
-
-    <!-- Elemen dekoratif -->
-    <div class="decor" id="decor">🌹</div>
 
     <!-- Love lock -->
     <div class="lock-screen" id="lockScreen">
       <div class="icon" id="icon">❤️</div>
-      <div class="tap-text">Please tap</div>
+      <div class="tap-text">Sentuh untuk membuka</div>
     </div>
 
   </div>
@@ -252,38 +192,20 @@ const video = document.getElementById("video");
 const lock = document.getElementById("lockScreen");
 const icon = document.getElementById("icon");
 const openSound = document.getElementById("openSound");
-const card = document.getElementById("card");
-const decor = document.getElementById("decor");
 const quoteEl = document.getElementById("quote");
-const title = document.getElementById("title");
 
-/* Ambil parameter dari URL */
+/* Ambil parameter */
 const params = new URLSearchParams(window.location.search);
-const occasion = params.get("occasion") || "valentine"; // Default: valentine untuk quote
 const nama = params.get("to");
 const pesan = params.get("msg");
-
-/* Set tema berdasarkan occasion */
-if (occasion === "birthday") {
-  card.classList.add("birthday");
-  icon.textContent = "🎂";
-  decor.textContent = "🎂";
-  title.textContent = "Selamat Ulang Tahun!";
-  if (!pesan) document.getElementById("pesan").textContent = "Selamat Ulang Tahun!";
-} else {
-  card.classList.add("valentine");
-  icon.textContent = "❤️";
-  decor.textContent = "🌹";
-  title.textContent = "Happy Valentine Day";
-  if (!pesan) document.getElementById("pesan").textContent = "Happy Valentine’s Day!";
-}
 
 if (nama) document.getElementById("nama").textContent = nama;
 if (pesan) document.getElementById("pesan").textContent = pesan;
 
-/* Fungsi auto-ketik untuk quote */
-function typeWriter(text, element, speed = 100) {
+/* efek ketik */
+function typeWriter(text, element, speed = 60) {
   let i = 0;
+  element.style.opacity = 1;
   element.textContent = "";
   const timer = setInterval(() => {
     if (i < text.length) {
@@ -296,31 +218,18 @@ function typeWriter(text, element, speed = 100) {
 }
 
 function openCard() {
-  /* aktifkan suara video dan mulai play */
   video.muted = false;
-  video.play().catch(() => {
-    console.log("Video play gagal, mungkin diblokir browser.");
-  });
+  video.play();
+  openSound.play();
 
-  /* mainkan efek suara */
-  openSound.currentTime = 0;
-  openSound.play().catch(() => {
-    console.log("Audio play gagal.");
-  });
-
-  /* animasi ikon */
   icon.classList.add("open");
 
   setTimeout(() => {
     lock.classList.add("hidden");
-    /* Mulai auto-ketik quote setelah kartu terbuka */
-    if (occasion === "valentine") {
-      typeWriter("Simply put, I love you more each day", quoteEl);
-    }
+    typeWriter("Simply put, I love you more each day", quoteEl);
   }, 500);
 }
 
-/* sentuhan user */
 lock.addEventListener("click", openCard);
 lock.addEventListener("touchstart", openCard);
 </script>
