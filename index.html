@@ -2,453 +2,129 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Kartu Ucapan FIOR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Kartu FIOR</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
+  font-family:Arial, sans-serif;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-family:Georgia,serif;
-  background:#000;
-  padding:15px;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  margin:0;
 }
 
-/* judul */
-.title{
+.box{
+  background:#1a1a1a;
+  padding:25px;
+  border-radius:15px;
+  width:90%;
+  max-width:400px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+h2{
+  text-align:center;
   color:#d4af37;
-  font-size:22px;
-  margin-bottom:15px;
-  text-align:center;
-  font-weight:bold;
-  text-shadow:0 0 5px rgba(212, 175, 55, 0.5);
+  margin-bottom:20px;
 }
 
-/* kartu - diperkecil untuk Android */
-.card{
-  width:min(88vw, 300px);
-  aspect-ratio:3/4;
-  border-radius:16px;
-  padding:8px;
-  background:linear-gradient(145deg,#8f6e1d,#d4af37,#fff1b0);
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-  position:relative;
+label{
+  font-size:14px;
+  opacity:.8;
 }
 
-.inner{
-  position:relative;
+input, textarea{
   width:100%;
-  height:100%;
-  border-radius:14px;
-  overflow:hidden;
-  background:#000;
-  will-change:transform; /* Optimasi Android */
-}
-
-/* Video container */
-.video-container{
-  width:100%;
-  height:60%;
-  position:relative;
-  overflow:hidden;
-}
-
-video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  background:#000;
-  transform:translateZ(0); /* Hardware acceleration untuk Android */
-}
-
-/* logo */
-.logo{
-  position:absolute;
-  top:10px;
-  right:10px;
-  width:45px;
-  height:45px;
-  opacity:.7;
-  object-fit:contain;
-  z-index:2;
-  filter:drop-shadow(0 2px 3px rgba(0,0,0,0.5));
-}
-
-/* teks */
-.text{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  height:40%;
-  padding:12px;
-  background:linear-gradient(to bottom,transparent,rgba(0,0,0,0.95));
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  align-items:center;
-  z-index:1;
-}
-
-.line1{
-  color:#fff;
-  font-size:13px;
-  margin-bottom:3px;
-  opacity:0.9;
-}
-
-.nama{
-  color:#fff1b0;
-  font-size:20px;
-  font-weight:bold;
-  margin:4px 0;
-  text-shadow:0 0 5px rgba(255, 241, 176, 0.5);
-  word-break:break-word;
-  padding:0 8px;
-  max-width:100%;
-}
-
-.pesan{
-  color:#e8a5b5;
-  font-size:13px;
+  padding:10px;
   margin-top:6px;
-  padding:0 8px;
-  word-break:break-word;
-  max-width:100%;
+  margin-bottom:15px;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
 }
 
-/* lock screen */
-.lock{
-  position:absolute;
-  top:0;
-  left:0;
+button{
   width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.95);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  padding:12px;
+  background:#d4af37;
+  color:#000;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:15px;
   cursor:pointer;
-  z-index:10;
-  transition:opacity 0.4s ease;
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
 }
 
-.lock.hidden{
-  opacity:0;
-  pointer-events:none;
-  visibility:hidden;
-}
-
-.heart{
-  font-size:60px;
-  animation:pulse 1.8s infinite ease-in-out;
-  filter:drop-shadow(0 0 8px rgba(232, 165, 181, 0.5));
-}
-
-@keyframes pulse{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.15);}
-}
-
-.hint{
-  color:#fff;
+.result{
+  margin-top:20px;
+  background:#000;
+  padding:10px;
+  border-radius:8px;
   font-size:13px;
-  margin-top:12px;
-  text-shadow:0 0 3px rgba(255,255,255,0.3);
-  font-weight:500;
+  word-break:break-all;
 }
 
-/* Media queries untuk Android performance */
-@media (max-width: 480px) {
-  .card {
-    width:92vw;
-    padding:6px;
-  }
-  
-  .title {
-    font-size:20px;
-    margin-bottom:12px;
-  }
-  
-  .video-container {
-    height:58%;
-  }
-  
-  .text {
-    height:42%;
-    padding:10px;
-  }
-  
-  .nama {
-    font-size:18px;
-  }
-  
-  .logo {
-    width:40px;
-    height:40px;
-    top:8px;
-    right:8px;
-  }
-}
-
-/* Disable animations jika baterai rendah */
-@media (prefers-reduced-motion: reduce) {
-  .heart {
-    animation:none;
-  }
-}
-
-/* Optimasi untuk perangkat rendah */
-@media (max-width: 360px) {
-  body {
-    padding:10px;
-  }
-  
-  .card {
-    width:96vw;
-    border-radius:14px;
-  }
-  
-  .inner {
-    border-radius:12px;
-  }
-  
-  .title {
-    font-size:18px;
-  }
-  
-  .heart {
-    font-size:50px;
-  }
-  
-  .hint {
-    font-size:12px;
-  }
+.link-btn{
+  margin-top:10px;
+  display:block;
+  text-align:center;
+  padding:10px;
+  background:#25D366;
+  color:#fff;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="title">Happy Valentine's Day</div>
+<div class="box">
+  <h2>Admin Kartu FIOR</h2>
 
-<div class="card">
-<div class="inner">
+  <label>Nama Penerima</label>
+  <input type="text" id="nama" placeholder="Contoh: Rina">
 
-<div class="video-container">
-  <video id="video" loop playsinline preload="metadata">
-    <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
-  </video>
+  <label>Pesan</label>
+  <textarea id="pesan" rows="3" placeholder="Contoh: Dari Andi"></textarea>
+
+  <button onclick="generate()">Buat Link Kartu</button>
+
+  <div id="output" class="result" style="display:none;"></div>
+  <a id="waBtn" class="link-btn" target="_blank" style="display:none;">
+    Kirim via WhatsApp
+  </a>
 </div>
-
-<img class="logo" 
-src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png"
-alt="Fior Florist Logo"
-loading="lazy">
-
-<div class="text">
-  <div class="line1">Untukmu,</div>
-  <div class="nama" id="nama">Nama Kamu</div>
-  <div class="pesan" id="pesan">Happy Valentine's Day</div>
-</div>
-
-<div class="lock" id="lock">
-  <div class="heart">❤️</div>
-  <div class="hint">Sentuh untuk membuka</div>
-</div>
-
-</div>
-</div>
-
-<audio id="sound" preload="none">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
-</audio>
 
 <script>
-// Elements
-const video = document.getElementById("video");
-const lock = document.getElementById("lock");
-const sound = document.getElementById("sound");
-const namaEl = document.getElementById("nama");
-const pesanEl = document.getElementById("pesan");
+function generate(){
+  const nama = encodeURIComponent(document.getElementById("nama").value.trim());
+  const pesan = encodeURIComponent(document.getElementById("pesan").value.trim());
 
-let opened = false;
-let videoAttempted = false;
-
-// Cek jika device Android
-const isAndroid = /android/i.test(navigator.userAgent);
-const isLowEndDevice = /(android.*mobile|mobile.*android)/i.test(navigator.userAgent) && 
-  (/low|slow|old|cheap/i.test(navigator.userAgent) || 
-   window.innerWidth <= 360 || 
-   'hardwareConcurrency' in navigator && navigator.hardwareConcurrency <= 4);
-
-console.log('Device Info:', {
-  isAndroid,
-  isLowEndDevice,
-  userAgent: navigator.userAgent.substring(0, 100),
-  cores: navigator.hardwareConcurrency
-});
-
-// Optimasi untuk device rendah
-if (isLowEndDevice) {
-  console.log('Low-end device detected, optimizing...');
-  // Matikan beberapa efek visual
-  document.querySelector('.heart').style.animation = 'none';
-  // Gunakan preload metadata saja
-  video.preload = 'metadata';
-}
-
-// Ambil parameter URL
-const params = new URLSearchParams(window.location.search);
-if(params.get("to")) {
-  namaEl.textContent = decodeURIComponent(params.get("to"));
-}
-if(params.get("msg")) {
-  pesanEl.textContent = decodeURIComponent(params.get("msg"));
-}
-
-// Load video secara manual (tidak autoplay)
-function loadVideo() {
-  if (videoAttempted) return;
-  videoAttempted = true;
-  
-  video.load();
-  video.muted = true;
-  
-  // Set timeout untuk mencegah blocking UI
-  setTimeout(() => {
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        console.log('Auto-play failed, will play on user interaction:', error);
-        // Biarkan gagal, akan diputar nanti
-      });
-    }
-  }, 500);
-}
-
-// Tunggu DOM siap
-document.addEventListener('DOMContentLoaded', function() {
-  // Delay loading video untuk Android
-  if (isAndroid) {
-    setTimeout(loadVideo, 1000);
-  } else {
-    loadVideo();
+  if(!nama){
+    alert("Isi nama penerima dulu");
+    return;
   }
-});
 
-// Fungsi untuk unlock
-function openCard(){
-  if(opened) return;
-  opened = true;
-  
-  console.log('Opening card...');
-  
-  // Enable audio pada video
-  video.muted = false;
-  video.currentTime = 0;
-  
-  // Coba play video dengan audio
-  const playPromise = video.play();
-  
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      console.log('Video playing with sound');
-    }).catch(error => {
-      console.log('Video play with sound failed:', error);
-      // Fallback untuk Android: coba muted dulu
-      video.muted = true;
-      video.play().then(() => {
-        console.log('Video playing muted as fallback');
-        // Coba unmute setelah 1 detik
-        setTimeout(() => {
-          video.muted = false;
-        }, 1000);
-      }).catch(e => {
-        console.log('Fallback also failed:', e);
-      });
-    });
-  }
-  
-  // Play sound effect (non-blocking)
-  setTimeout(() => {
-    sound.currentTime = 0;
-    sound.volume = 0.7; // Kurangi volume untuk Android
-    sound.play().catch(e => {
-      console.log('Sound play failed (non-critical):', e);
-    });
-  }, 300);
-  
-  // Hide lock screen dengan animasi sederhana
-  lock.style.transition = 'opacity 0.3s ease';
-  lock.classList.add("hidden");
-  
-  // Cleanup untuk performance
-  setTimeout(() => {
-    lock.style.display = 'none';
-  }, 500);
-}
+  // GANTI dengan link kartu asli
+  const baseURL = "https://fiorfloristjayapura-commits.github.io/Fior-PreOrder/kartu-fior-lite.html";
 
-// Event listeners untuk lock screen
-lock.addEventListener("click", openCard);
+  const link = baseURL + "?to=" + nama + "&msg=" + pesan;
 
-// Touch event untuk Android
-lock.addEventListener("touchstart", function(e) {
-  e.preventDefault();
-  // Haptic feedback jika tersedia
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
-  openCard();
-}, {passive: false});
+  const output = document.getElementById("output");
+  const waBtn = document.getElementById("waBtn");
 
-// Pencegahan zoom dan gesture yang berat
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function(event) {
-  const now = Date.now();
-  if (now - lastTouchEnd <= 300) {
-    event.preventDefault();
-  }
-  lastTouchEnd = now;
-}, false);
+  output.style.display = "block";
+  output.textContent = link;
 
-document.addEventListener('gesturestart', function(e) {
-  e.preventDefault();
-});
-
-// Handle page visibility (pause video saat tab tidak aktif)
-document.addEventListener('visibilitychange', function() {
-  if (document.hidden && !video.paused) {
-    video.pause();
-  } else if (!document.hidden && opened && video.paused) {
-    video.play().catch(e => console.log('Resume play failed:', e));
-  }
-});
-
-// Optimasi memory untuk Android
-window.addEventListener('beforeunload', function() {
-  video.pause();
-  video.src = '';
-  video.load();
-});
-
-// Force garbage collection untuk Android (jika perlu)
-if (isAndroid && window.gc) {
-  setTimeout(() => {
-    window.gc();
-  }, 10000);
+  const waText = encodeURIComponent("Ini kartu ucapan untuk kamu 💐\n" + link);
+  waBtn.href = "https://wa.me/?text=" + waText;
+  waBtn.style.display = "block";
 }
 </script>
 
