@@ -97,52 +97,12 @@
             box-shadow: 0 0 15px rgba(255, 220, 120, 0.6);
             z-index: 5;
         }
-
-        /* Penutup gembok */
-        .lock-screen {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #000, #1a1a1a);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            color: white;
-            cursor: pointer;
-            transition: 0.6s;
-        }
-
-        .lock-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .lock-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
-        }
-
-        .tap-text {
-            font-size: 14px;
-            opacity: 0.8;
-        }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="inner">
-            <video id="video" muted loop playsinline>
+            <video id="video" loop playsinline>
                 <source src="aldo.mp4" type="video/mp4">
             </video>
             <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo FIOR">
@@ -151,31 +111,23 @@
                 <div class="nama" id="nama">Nama Kamu</div>
                 <div class="pesan" id="pesan">Happy Valentine’s Day</div>
             </div>
-            <!-- Penutup gembok -->
-            <div class="lock-screen" id="lockScreen">
-                <div class="lock-icon">🔒</div>
-                <div class="tap-text">Sentuh untuk membuka kartu</div>
-            </div>
         </div>
     </div>
-    <audio id="openSound" preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c7e2f6c6f.mp3" type="audio/mpeg">
-    </audio>
     <script>
         const video = document.getElementById("video");
-        const lock = document.getElementById("lockScreen");
-        const openSound = document.getElementById("openSound");
 
-        /* Buka kartu */
-        function openCard() {
-            lock.classList.add("hidden");
-            video.muted = false;
-            video.play();
-            openSound.play();
-        }
-
-        lock.addEventListener("click", openCard);
-        lock.addEventListener("touchstart", openCard);
+        /* Video autorun dengan suara saat halaman load */
+        window.addEventListener('load', () => {
+            video.muted = false; // Aktifkan suara
+            video.play().catch(error => {
+                console.log('Autoplay diblokir oleh browser:', error);
+                // Fallback: Tunggu interaksi pengguna
+                document.addEventListener('click', () => {
+                    video.muted = false;
+                    video.play();
+                }, { once: true });
+            });
+        });
 
         /* Ambil nama dan pesan dari URL */
         const params = new URLSearchParams(window.location.search);
