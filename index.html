@@ -332,13 +332,6 @@
                 font-size: 80px;
             }
         }
-
-        /* Support Dark Mode Sistem */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: radial-gradient(ellipse at 30% 20%, #2a2515, #1a1810 70%);
-            }
-        }
     </style>
 </head>
 
@@ -352,7 +345,7 @@
                 
                 <!-- Area Video -->
                 <div class="video-wrapper">
-                    <video id="mainVideo" loop playsinline muted preload="metadata">
+                    <video id="mainVideo" loop playsinline preload="metadata">
                         <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
                     </video>
                     
@@ -446,6 +439,36 @@
                 type();
             }
 
+            // Play Video Function
+            function playVideo() {
+                // Unmute dan play video
+                video.muted = false;
+                
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log('Video play error:', error);
+                        // Jika gagal, coba dengan muted
+                        video.muted = true;
+                        video.play();
+                    });
+                }
+            }
+
+            // Play Sound Function
+            function playSound() {
+                unlockSound.currentTime = 0;
+                
+                const soundPromise = unlockSound.play();
+                
+                if (soundPromise !== undefined) {
+                    soundPromise.catch(function(error) {
+                        console.log('Sound play error:', error);
+                    });
+                }
+            }
+
             // Unlock Card Function
             function unlockCard() {
                 if (isUnlocked) return;
@@ -455,24 +478,10 @@
                 heartIcon.classList.add('opening');
 
                 // Play sound
-                unlockSound.currentTime = 0;
-                const soundPromise = unlockSound.play();
+                playSound();
 
-                if (soundPromise !== undefined) {
-                    soundPromise.catch(function(error) {
-                        console.log('Audio playback was prevented:', error);
-                    });
-                }
-
-                // Play video with sound
-                video.muted = false;
-                const videoPromise = video.play();
-
-                if (videoPromise !== undefined) {
-                    videoPromise.catch(function(error) {
-                        console.log('Video playback was prevented:', error);
-                    });
-                }
+                // Play video
+                playVideo();
 
                 // Hide lock screen and show quote
                 setTimeout(function() {
