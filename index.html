@@ -6,12 +6,7 @@
     <title>Kartu Ucapan Valentine - Fior Florist</title>
     
     <style>
-        /* Reset dan Variabel Warna */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --gold-dark: #8f6e1d;
@@ -25,7 +20,6 @@
             --overlay-dark: rgba(0, 0, 0, 0.85);
         }
 
-        /* Body dan Layout Utama */
         body {
             min-height: 100vh;
             display: flex;
@@ -38,26 +32,20 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Judul Halaman */
         .page-title {
             font-size: 24px;
             color: var(--gold-main);
             margin-bottom: 20px;
             text-align: center;
-            font-weight: normal;
             letter-spacing: 2px;
             text-transform: uppercase;
-            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);
         }
 
-        /* Container Kartu Utama */
         .card-container {
             width: 100%;
             max-width: 340px;
-            perspective: 1000px;
         }
 
-        /* Kartu dengan Efek Gold Gradient */
         .card {
             position: relative;
             width: 100%;
@@ -76,7 +64,6 @@
                 inset 0 -3px 8px rgba(80, 60, 10, 0.4);
         }
 
-        /* Inner Card - Area Konten */
         .card-inner {
             position: relative;
             width: 100%;
@@ -86,7 +73,6 @@
             background: linear-gradient(to bottom, #1a1a1a, #000);
         }
 
-        /* Area Video */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -101,7 +87,6 @@
             display: block;
         }
 
-        /* Logo Fior */
         .brand-logo {
             position: absolute;
             top: 12px;
@@ -112,18 +97,14 @@
             border-radius: 50%;
             padding: 6px;
             z-index: 5;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .brand-logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 50%;
         }
 
-        /* Area Teks dan Konten */
         .content-area {
             position: absolute;
             bottom: 0;
@@ -131,63 +112,32 @@
             right: 0;
             height: 42%;
             padding: 20px 16px 16px;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                var(--overlay-dark) 30%, 
-                #000 100%);
+            background: linear-gradient(to bottom, transparent 0%, var(--overlay-dark) 30%, #000 100%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
             text-align: center;
-            z-index: 4;
         }
 
-        /* Komponen Teks */
-        .greeting-line {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-        }
-
-        .recipient-name {
-            font-size: 22px;
-            color: var(--gold-light);
-            font-weight: bold;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 8px rgba(255, 241, 176, 0.3);
-        }
-
-        .main-message {
-            font-size: 14px;
-            color: var(--pink-text);
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-
-        /* Quote dengan Efek Ketik */
-        .quote-container {
-            min-height: 20px;
-        }
+        .greeting-line { font-size: 13px; color: #fff; margin-bottom: 6px; }
+        .recipient-name { font-size: 22px; color: var(--gold-light); font-weight: bold; }
+        .main-message { font-size: 14px; color: var(--pink-text); margin-top: 6px; }
 
         .quote-text {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.85);
+            color: #fff;
             padding: 8px 12px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid var(--gold-main);
             border-radius: 6px;
             background: rgba(0, 0, 0, 0.4);
-            display: inline-block;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            margin-top: 8px;
+            transition: 0.4s;
         }
 
-        .quote-text.visible {
-            opacity: 1;
-        }
+        .quote-text.visible { opacity: 1; }
 
-        /* Lock Screen Overlay */
         .lock-screen {
             position: absolute;
             inset: 0;
@@ -199,7 +149,6 @@
             z-index: 10;
             cursor: pointer;
             transition: opacity 0.5s ease, visibility 0.5s ease;
-            backdrop-filter: blur(8px);
         }
 
         .lock-screen.hidden {
@@ -208,317 +157,121 @@
             pointer-events: none;
         }
 
-        /* Ikon Hati dengan Animasi */
         .heart-icon {
             font-size: 64px;
-            filter: drop-shadow(0 0 20px rgba(255, 105, 135, 0.5));
-            animation: heartbeat 1.5s ease-in-out infinite;
-            user-select: none;
-        }
-
-        .heart-icon.opening {
-            animation: heartOpen 0.7s ease-out forwards;
+            animation: heartbeat 1.5s infinite;
         }
 
         @keyframes heartbeat {
-            0%, 100% { 
-                transform: scale(1); 
-            }
-            15% { 
-                transform: scale(1.15); 
-            }
-            30% { 
-                transform: scale(1); 
-            }
-            45% { 
-                transform: scale(1.1); 
-            }
+            0%,100% {transform:scale(1);}
+            50% {transform:scale(1.2);}
         }
 
-        @keyframes heartOpen {
-            0% { 
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            50% { 
-                transform: scale(1.5) rotate(15deg);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: scale(0) rotate(-30deg);
-                opacity: 0;
-            }
-        }
-
-        /* Teks Petunjuk */
         .tap-hint {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 16px;
-            letter-spacing: 1px;
-            animation: fadePulse 2s ease-in-out infinite;
+            color: #fff;
+            margin-top: 12px;
         }
 
-        @keyframes fadePulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Footer */
         .footer {
             margin-top: 20px;
             font-size: 11px;
             color: var(--gold-main);
-            opacity: 0.6;
-            text-align: center;
-        }
-
-        /* Media Queries untuk Responsivitas */
-        @media (max-width: 360px) {
-            .page-title {
-                font-size: 20px;
-            }
-            
-            .card {
-                max-width: 300px;
-            }
-            
-            .recipient-name {
-                font-size: 19px;
-            }
-            
-            .main-message {
-                font-size: 13px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .page-title {
-                font-size: 32px;
-                margin-bottom: 30px;
-            }
-            
-            .card-container {
-                max-width: 420px;
-            }
-            
-            .card {
-                border-radius: 30px;
-                padding: 16px;
-            }
-            
-            .card-inner {
-                border-radius: 24px;
-            }
-            
-            .recipient-name {
-                font-size: 28px;
-            }
-            
-            .main-message {
-                font-size: 17px;
-            }
-            
-            .greeting-line {
-                font-size: 15px;
-            }
-            
-            .quote-text {
-                font-size: 14px;
-                padding: 10px 16px;
-            }
-            
-            .heart-icon {
-                font-size: 80px;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1 class="page-title">Happy Valentine's Day</h1>
+<h1 class="page-title">Happy Valentine's Day</h1>
 
-    <div class="card-container">
-        <div class="card">
-            <div class="card-inner">
-                
-                <!-- Area Video -->
-                <div class="video-wrapper">
-                    <video id="mainVideo" loop playsinline preload="metadata">
-                        <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
-                    </video>
-                    
-                    <!-- Logo -->
-                    <div class="brand-logo">
-                        <img src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo Fior Florist">
-                    </div>
+<div class="card-container">
+    <div class="card">
+        <div class="card-inner">
+            
+            <div class="video-wrapper">
+                <!-- FIX: autoplay + muted -->
+                <video id="mainVideo" autoplay muted loop playsinline preload="auto">
+                    <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
+                </video>
+
+                <div class="brand-logo">
+                    <img src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
                 </div>
-
-                <!-- Area Konten Teks -->
-                <div class="content-area">
-                    <p class="greeting-line">Untukmu,</p>
-                    <p class="recipient-name" id="recipientName">Nama Kamu</p>
-                    <p class="main-message" id="mainMessage">Happy Valentine's Day!</p>
-                    
-                    <div class="quote-container">
-                        <p class="quote-text" id="quoteText"></p>
-                    </div>
-                </div>
-
-                <!-- Lock Screen -->
-                <div class="lock-screen" id="lockScreen">
-                    <div class="heart-icon" id="heartIcon">❤️</div>
-                    <p class="tap-hint">Sentuh untuk membuka</p>
-                </div>
-
             </div>
+
+            <div class="content-area">
+                <p class="greeting-line">Untukmu,</p>
+                <p class="recipient-name" id="recipientName">Nama Kamu</p>
+                <p class="main-message" id="mainMessage">Happy Valentine's Day!</p>
+                <p class="quote-text" id="quoteText"></p>
+            </div>
+
+            <div class="lock-screen" id="lockScreen">
+                <div class="heart-icon">❤️</div>
+                <p class="tap-hint">Sentuh untuk membuka</p>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <p class="footer">Fior Florist Jayapura</p>
+<p class="footer">Fior Florist Jayapura</p>
 
-    <!-- Audio untuk Sound Effect -->
-    <audio id="unlockSound" preload="auto">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
-    </audio>
+<audio id="unlockSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a7d6c3.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        (function() {
-            'use strict';
+<script>
+const video = document.getElementById('mainVideo');
+const lockScreen = document.getElementById('lockScreen');
+const unlockSound = document.getElementById('unlockSound');
+const quoteText = document.getElementById('quoteText');
+const recipientName = document.getElementById('recipientName');
+const mainMessage = document.getElementById('mainMessage');
 
-            // Element References
-            const video = document.getElementById('mainVideo');
-            const lockScreen = document.getElementById('lockScreen');
-            const heartIcon = document.getElementById('heartIcon');
-            const unlockSound = document.getElementById('unlockSound');
-            const quoteText = document.getElementById('quoteText');
-            const recipientName = document.getElementById('recipientName');
-            const mainMessage = document.getElementById('mainMessage');
+/* AUTOPLAY saat load (muted) */
+video.muted = true;
+video.play().catch(()=>{});
 
-            // State
-            let isUnlocked = false;
+/* Ambil parameter URL */
+const params = new URLSearchParams(window.location.search);
+const nameParam = params.get('to');
+const messageParam = params.get('msg');
 
-            // Get URL Parameters
-            function getUrlParameter(name) {
-                const params = new URLSearchParams(window.location.search);
-                const value = params.get(name);
-                return value ? decodeURIComponent(value) : null;
-            }
+if (nameParam) recipientName.textContent = nameParam;
+if (messageParam) mainMessage.textContent = messageParam;
 
-            // Initialize Content
-            function initializeContent() {
-                const nameParam = getUrlParameter('to');
-                const messageParam = getUrlParameter('msg');
+/* efek ketik */
+function typeWriter(text, element, speed = 50) {
+    element.classList.add('visible');
+    element.textContent = "";
+    let i = 0;
+    const timer = setInterval(() => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(timer);
+        }
+    }, speed);
+}
 
-                if (nameParam) {
-                    recipientName.textContent = nameParam.trim();
-                }
-                if (messageParam) {
-                    mainMessage.textContent = messageParam.trim();
-                }
-            }
+function unlockCard() {
+    unlockSound.play().catch(()=>{});
+    video.muted = false;
+    video.play();
 
-            // Typing Effect
-            function typeWriter(text, element, typingSpeed = 50) {
-                if (!text || !element) return;
+    lockScreen.classList.add('hidden');
 
-                element.textContent = '';
-                element.classList.add('visible');
+    setTimeout(() => {
+        typeWriter('Simply put, I love you more each day', quoteText);
+    }, 500);
+}
 
-                let charIndex = 0;
+lockScreen.addEventListener('click', unlockCard);
+lockScreen.addEventListener('touchstart', unlockCard);
+</script>
 
-                function type() {
-                    if (charIndex < text.length) {
-                        element.textContent += text.charAt(charIndex);
-                        charIndex++;
-                        setTimeout(type, typingSpeed);
-                    }
-                }
-
-                type();
-            }
-
-            // Play Video Function
-            function playVideo() {
-                // Unmute dan play video
-                video.muted = false;
-                
-                const playPromise = video.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.catch(function(error) {
-                        console.log('Video play error:', error);
-                        // Jika gagal, coba dengan muted
-                        video.muted = true;
-                        video.play();
-                    });
-                }
-            }
-
-            // Play Sound Function
-            function playSound() {
-                unlockSound.currentTime = 0;
-                
-                const soundPromise = unlockSound.play();
-                
-                if (soundPromise !== undefined) {
-                    soundPromise.catch(function(error) {
-                        console.log('Sound play error:', error);
-                    });
-                }
-            }
-
-            // Unlock Card Function
-            function unlockCard() {
-                if (isUnlocked) return;
-                isUnlocked = true;
-
-                // Play unlock animation
-                heartIcon.classList.add('opening');
-
-                // Play sound
-                playSound();
-
-                // Play video
-                playVideo();
-
-                // Hide lock screen and show quote
-                setTimeout(function() {
-                    lockScreen.classList.add('hidden');
-                    typeWriter('Simply put, I love you more each day', quoteText);
-                }, 600);
-            }
-
-            // Event Listeners
-            function setupEventListeners() {
-                // Click and touch events
-                lockScreen.addEventListener('click', unlockCard);
-                lockScreen.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    unlockCard();
-                }, { passive: false });
-
-                // Keyboard accessibility
-                document.addEventListener('keydown', function(e) {
-                    if ((e.code === 'Space' || e.code === 'Enter') && !isUnlocked) {
-                        e.preventDefault();
-                        unlockCard();
-                    }
-                });
-            }
-
-            // Initialize when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    initializeContent();
-                    setupEventListeners();
-                });
-            } else {
-                initializeContent();
-                setupEventListeners();
-            }
-        })();
-    </script>
 </body>
 </html>
