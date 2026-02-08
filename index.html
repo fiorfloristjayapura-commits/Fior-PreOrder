@@ -20,12 +20,28 @@ body {
   margin:0;
   min-height:100vh;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   padding:20px;
   font-family:"Georgia",serif;
   background:radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
   overflow:hidden;
+}
+
+/* Judul di atas kartu */
+.title {
+  font-size:28px;
+  color:#d4af37;
+  text-shadow:0 0 10px rgba(212,175,55,0.8);
+  margin-bottom:20px;
+  text-align:center;
+  animation:fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(-20px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 /* kartu */
@@ -80,6 +96,29 @@ video {
 .line1 {font-size:15px;color:#fff;text-shadow:0 0 5px rgba(255,255,255,0.5);}
 .nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;text-shadow:0 0 10px var(--gold2);}
 .pesan {font-size:15px;color:#e8a5b5;margin-top:6px;text-shadow:0 0 5px var(--pink);}
+
+/* Quote auto-ketik */
+.quote {
+  position:absolute;
+  top:70%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:16px;
+  color:#fff;
+  text-shadow:0 0 5px var(--pink);
+  text-align:center;
+  opacity:0;
+  animation:fadeInQuote 1s ease-in-out 0.5s forwards;
+  border:2px solid var(--gold2);
+  border-radius:10px;
+  padding:10px;
+  background:rgba(0,0,0,0.7);
+  max-width:80%;
+}
+
+@keyframes fadeInQuote {
+  to {opacity:1;}
+}
 
 /* logo */
 .logo {
@@ -140,6 +179,12 @@ video {
   color:#fff;
   opacity:0.8;
   text-align:center;
+  animation:pulseText 1.5s infinite;
+}
+
+@keyframes pulseText {
+  0%,100% {opacity:0.8;}
+  50% {opacity:1;}
 }
 
 /* Elemen dekoratif untuk estetika */
@@ -158,12 +203,15 @@ video {
 }
 
 /* Tema spesifik */
-.valentine .decor { content:"🌹"; color:var(--pink); }
-.birthday .decor { content:"🎂"; color:var(--blue); }
+.valentine .decor { color:var(--pink); }
+.birthday .decor { color:var(--blue); }
 </style>
 </head>
 
 <body>
+
+<!-- Judul di atas kartu -->
+<div class="title" id="title">Happy Valentine Day</div>
 
 <div class="card" id="card">
   <div class="inner">
@@ -177,16 +225,19 @@ video {
     <div class="text">
       <div class="line1">Untukmu,</div>
       <div class="nama" id="nama">Nama Kamu</div>
-      <div class="pesan" id="pesan">Selamat Ulang Tahun!</div>
+      <div class="pesan" id="pesan">Happy Valentine’s Day!</div>
     </div>
 
+    <!-- Quote auto-ketik -->
+    <div class="quote" id="quote"></div>
+
     <!-- Elemen dekoratif -->
-    <div class="decor" id="decor">🎂</div>
+    <div class="decor" id="decor">🌹</div>
 
     <!-- Love lock -->
     <div class="lock-screen" id="lockScreen">
-      <div class="icon" id="icon">🎂</div>
-      <div class="tap-text">Sentuh untuk membuka kartu</div>
+      <div class="icon" id="icon">❤️</div>
+      <div class="tap-text">Please tap</div>
     </div>
 
   </div>
@@ -203,28 +254,46 @@ const icon = document.getElementById("icon");
 const openSound = document.getElementById("openSound");
 const card = document.getElementById("card");
 const decor = document.getElementById("decor");
+const quoteEl = document.getElementById("quote");
+const title = document.getElementById("title");
 
 /* Ambil parameter dari URL */
 const params = new URLSearchParams(window.location.search);
-const occasion = params.get("occasion") || "birthday"; // Default: birthday
+const occasion = params.get("occasion") || "valentine"; // Default: valentine untuk quote
 const nama = params.get("to");
 const pesan = params.get("msg");
 
 /* Set tema berdasarkan occasion */
-if (occasion === "valentine") {
-  card.classList.add("valentine");
-  icon.textContent = "❤️";
-  decor.textContent = "🌹";
-  if (!pesan) document.getElementById("pesan").textContent = "Happy Valentine’s Day!";
-} else {
+if (occasion === "birthday") {
   card.classList.add("birthday");
   icon.textContent = "🎂";
   decor.textContent = "🎂";
+  title.textContent = "Selamat Ulang Tahun!";
   if (!pesan) document.getElementById("pesan").textContent = "Selamat Ulang Tahun!";
+} else {
+  card.classList.add("valentine");
+  icon.textContent = "❤️";
+  decor.textContent = "🌹";
+  title.textContent = "Happy Valentine Day";
+  if (!pesan) document.getElementById("pesan").textContent = "Happy Valentine’s Day!";
 }
 
 if (nama) document.getElementById("nama").textContent = nama;
 if (pesan) document.getElementById("pesan").textContent = pesan;
+
+/* Fungsi auto-ketik untuk quote */
+function typeWriter(text, element, speed = 100) {
+  let i = 0;
+  element.textContent = "";
+  const timer = setInterval(() => {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(timer);
+    }
+  }, speed);
+}
 
 function openCard() {
   /* aktifkan suara video dan mulai play */
@@ -244,6 +313,10 @@ function openCard() {
 
   setTimeout(() => {
     lock.classList.add("hidden");
+    /* Mulai auto-ketik quote setelah kartu terbuka */
+    if (occasion === "valentine") {
+      typeWriter("Simply put, I love you more each day", quoteEl);
+    }
   }, 500);
 }
 
