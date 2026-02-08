@@ -1,149 +1,188 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Kartu Ucapan FIOR</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        :root {
-            --gold1: #8f6e1d;
-            --gold2: #d4af37;
-            --gold3: #fff1b0;
-            --gold4: #caa64b;
-        }
+<meta charset="UTF-8">
+<title>Kartu Ucapan FIOR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-family: "Georgia", serif;
-            background: radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
-            overflow: hidden;
-        }
+<style>
+:root {
+  --gold1:#8f6e1d;
+  --gold2:#d4af37;
+  --gold3:#fff1b0;
+  --gold4:#caa64b;
+}
 
-        /* Kartu utama */
-        .card {
-            width: 90vw;
-            max-width: 340px;
-            aspect-ratio: 3/4;
-            border-radius: 28px;
-            padding: 14px;
-            background: linear-gradient(145deg, var(--gold1), var(--gold2) 25%, var(--gold3) 50%, var(--gold4) 70%, var(--gold1));
-            box-shadow:
-                inset 0 4px 8px rgba(255, 255, 220, 0.7),
-                inset 0 -6px 12px rgba(80, 60, 10, 0.8),
-                0 20px 60px rgba(0, 0, 0, 0.4);
-            position: relative;
-        }
+body {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-family:"Georgia",serif;
+  background:radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
+  overflow:hidden;
+}
 
-        .inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            background: black;
-        }
+/* kartu */
+.card {
+  width:90vw;
+  max-width:340px;
+  aspect-ratio:3/4;
+  border-radius:28px;
+  padding:14px;
+  background:linear-gradient(145deg,var(--gold1),var(--gold2)25%,var(--gold3)50%,var(--gold4)70%,var(--gold1));
+  box-shadow:
+    inset 0 4px 8px rgba(255,255,220,0.7),
+    inset 0 -6px 12px rgba(80,60,10,0.8),
+    0 20px 60px rgba(0,0,0,0.4);
+  position:relative;
+}
 
-        /* Video */
-        video {
-            width: 100%;
-            height: 60%;
-            object-fit: cover;
-            display: block;
-        }
+.inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:20px;
+  overflow:hidden;
+  background:black;
+}
 
-        /* Teks */
-        .text {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 40%;
-            padding: 18px 14px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.95));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+video {
+  width:100%;
+  height:60%;
+  object-fit:cover;
+}
 
-        .line1 {
-            font-size: 15px;
-            color: #fff;
-        }
+/* teks */
+.text {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:40%;
+  padding:18px 14px;
+  background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0.95));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
 
-        .nama {
-            font-size: 24px;
-            color: #fff1b0;
-            font-weight: bold;
-            margin-top: 6px;
-        }
+.line1 {font-size:15px;color:#fff;}
+.nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;}
+.pesan {font-size:15px;color:#e8a5b5;margin-top:6px;}
 
-        .pesan {
-            font-size: 15px;
-            color: #e8a5b5;
-            margin-top: 6px;
-        }
+/* logo */
+.logo {
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:60px;
+  background:rgba(0,0,0,0.35);
+  padding:6px;
+  border-radius:50%;
+}
 
-        /* Logo */
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 60px;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 6px;
-            border-radius: 50%;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 15px rgba(255, 220, 120, 0.6);
-            z-index: 5;
-        }
-    </style>
+/* LOVE LOCK SCREEN */
+.lock-screen {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#000,#1a1a1a);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  cursor:pointer;
+  transition:0.6s;
+}
+
+.lock-screen.hidden {
+  opacity:0;
+  pointer-events:none;
+}
+
+/* ikon love */
+.heart {
+  font-size:60px;
+  animation:heartPulse 1.5s infinite;
+}
+
+@keyframes heartPulse {
+  0%,100% {transform:scale(1);}
+  50% {transform:scale(1.2);}
+}
+
+/* animasi buka */
+.heart.open {
+  animation:heartOpen 0.6s forwards;
+}
+
+@keyframes heartOpen {
+  0% {transform:scale(1);}
+  50% {transform:scale(1.5);}
+  100% {transform:scale(0);opacity:0;}
+}
+</style>
 </head>
+
 <body>
-    <div class="card">
-        <div class="inner">
 
-            <!-- VIDEO SUDAH DIPERBAIKI -->
-            <video id="video" autoplay muted loop playsinline>
-                <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
-            </video>
+<div class="card">
+  <div class="inner">
 
-            <img class="logo"
-            src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png"
-            alt="Logo FIOR">
+    <video id="video" muted loop playsinline>
+      <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
+    </video>
 
-            <div class="text">
-                <div class="line1">Untukmu,</div>
-                <div class="nama" id="nama">Nama Kamu</div>
-                <div class="pesan" id="pesan">Happy Valentine’s Day</div>
-            </div>
+    <img class="logo"
+    src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
 
-        </div>
+    <div class="text">
+      <div class="line1">Untukmu,</div>
+      <div class="nama" id="nama">Nama Kamu</div>
+      <div class="pesan" id="pesan">Happy Valentine’s Day</div>
     </div>
 
-    <script>
-        const video = document.getElementById("video");
+    <!-- Love lock -->
+    <div class="lock-screen" id="lockScreen">
+      <div class="heart" id="heart">❤️</div>
+    </div>
 
-        /* paksa autoplay */
-        window.addEventListener('load', () => {
-            video.play().catch(() => {
-                document.addEventListener('click', () => {
-                    video.muted = false;
-                    video.play();
-                }, { once: true });
-            });
-        });
+  </div>
+</div>
 
-        /* Ambil nama dan pesan dari URL */
-        const params = new URLSearchParams(window.location.search);
-        const nama = params.get("to");
-        const pesan = params.get("msg");
+<audio id="openSound" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c7e2f6c6f.mp3" type="audio/mpeg">
+</audio>
 
-        if (nama) document.getElementById("nama").textContent = nama;
-        if (pesan) document.getElementById("pesan").textContent = pesan;
-    </script>
+<script>
+const video = document.getElementById("video");
+const lock = document.getElementById("lockScreen");
+const heart = document.getElementById("heart");
+const openSound = document.getElementById("openSound");
+
+function openCard() {
+  heart.classList.add("open");
+
+  setTimeout(() => {
+    lock.classList.add("hidden");
+    video.muted = false;
+    video.play();
+    openSound.play();
+  }, 500);
+}
+
+lock.addEventListener("click", openCard);
+lock.addEventListener("touchstart", openCard);
+
+/* nama & pesan dari URL */
+const params = new URLSearchParams(window.location.search);
+const nama = params.get("to");
+const pesan = params.get("msg");
+
+if (nama) document.getElementById("nama").textContent = nama;
+if (pesan) document.getElementById("pesan").textContent = pesan;
+</script>
+
 </body>
 </html>
