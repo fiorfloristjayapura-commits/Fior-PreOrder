@@ -11,8 +11,8 @@
   --gold2:#d4af37;
   --gold3:#fff1b0;
   --gold4:#caa64b;
-  --green:#228B22; /* Hijau untuk tangkai bunga */
-  --pink:#FFB6C1; /* Pink untuk bunga */
+  --green:#228B22;
+  --pink:#FFB6C1;
   --shadow:rgba(0,0,0,0.4);
 }
 
@@ -26,10 +26,9 @@ body {
   font-family:"Georgia",serif;
   background:
     radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
-  overflow:hidden;
 }
 
-/* kartu utama dengan efek ringan */
+/* kartu utama */
 .card {
   width:90vw;
   max-width:340px;
@@ -47,12 +46,6 @@ body {
     inset 0 -6px 12px rgba(80,60,10,0.8),
     0 20px 60px var(--shadow);
   position:relative;
-  transform: perspective(1000px) rotateX(5deg);
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: perspective(1000px) rotateX(0deg);
 }
 
 .inner {
@@ -79,13 +72,11 @@ video {
   width:100%;
   padding:16px 12px 20px;
   background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.9));
-  animation: fadeInUp 0.8s ease-out 0.3s both;
 }
 
 .line1 {
   font-size:15px;
   color:#fff;
-  text-shadow: 0 0 3px var(--gold3);
 }
 
 .nama {
@@ -93,14 +84,12 @@ video {
   color:#fff1b0;
   font-weight:bold;
   margin-top:4px;
-  text-shadow: 0 0 5px var(--gold2);
 }
 
 .pesan {
   font-size:14px;
   color:#e8a5b5;
   margin-top:6px;
-  text-shadow: 0 0 3px var(--pink);
 }
 
 /* logo */
@@ -112,16 +101,16 @@ video {
   background:rgba(0,0,0,0.35);
   padding:6px;
   border-radius:50%;
-  backdrop-filter:blur(4px);
-  transition: transform 0.2s ease;
 }
 
-.logo:hover {
-  transform: scale(1.05);
+/* STEM & FLOWER (hanya aktif setelah buka) */
+.stem,
+.flower {
+  opacity:0;
+  pointer-events:none;
 }
 
-/* Long Stem: Tangkai bunga panjang yang muncul saat buka */
-.stem {
+.card.open .stem {
   position:absolute;
   bottom:0;
   left:50%;
@@ -130,12 +119,12 @@ video {
   height:0;
   background:linear-gradient(to top, var(--green), #32CD32);
   border-radius:2px;
-  animation: growStem 1.5s ease-out 0.5s forwards;
+  animation: growStem 1.2s ease-out forwards;
   z-index:5;
-  opacity:0;
+  opacity:1;
 }
 
-.flower {
+.card.open .flower {
   position:absolute;
   bottom:0;
   left:50%;
@@ -145,13 +134,13 @@ video {
   background:radial-gradient(circle, var(--pink), #FF69B4);
   border-radius:50%;
   box-shadow: 0 0 8px var(--pink);
-  animation: bloom 1.5s ease-out 1s forwards;
+  animation: bloom 1.2s ease-out 0.5s forwards;
   z-index:5;
-  opacity:0;
+  opacity:1;
 }
 
 @keyframes growStem {
-  to { height:180px; opacity:1; }
+  to { height:180px; }
 }
 
 @keyframes bloom {
@@ -170,13 +159,12 @@ video {
   z-index:10;
   color:white;
   cursor:pointer;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:opacity 0.4s ease;
 }
 
 .lock-screen.hidden {
   opacity:0;
   pointer-events:none;
-  transform: scale(0.95);
 }
 
 .lock-icon {
@@ -194,33 +182,15 @@ video {
   font-size:14px;
   opacity:0.8;
 }
-
-@keyframes fadeInUp {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
-}
-
-/* Responsivitas */
-@media (max-width: 480px) {
-  .card {
-    width:95vw;
-    max-width:320px;
-  }
-  .nama { font-size:20px; }
-  .pesan { font-size:13px; }
-  .stem { height:150px; }
-  @keyframes growStem { to { height:150px; } }
-  @keyframes bloom { to { transform:translateX(-50%) translateY(-150px); } }
-}
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <div class="inner">
 
-    <video id="video" muted loop playsinline>
+    <video id="video" muted loop playsinline preload="metadata">
       <source src="aldo.mp4" type="video/mp4">
     </video>
 
@@ -233,7 +203,7 @@ video {
       <div class="pesan" id="pesan">Happy Valentine’s Day</div>
     </div>
 
-    <!-- Long Stem Elements -->
+    <!-- Long Stem -->
     <div class="stem"></div>
     <div class="flower"></div>
 
@@ -254,14 +224,20 @@ video {
 const video = document.getElementById("video");
 const lock = document.getElementById("lockScreen");
 const openSound = document.getElementById("openSound");
+const card = document.getElementById("card");
 
 /* buka kartu */
 function openCard() {
   lock.classList.add("hidden");
+  card.classList.add("open");
+
   video.muted = false;
   video.play();
-  openSound.play();
-  video.style.opacity = '1';
+
+  /* delay kecil supaya tidak lag */
+  setTimeout(() => {
+    openSound.play();
+  }, 200);
 }
 
 lock.addEventListener("click", openCard);
