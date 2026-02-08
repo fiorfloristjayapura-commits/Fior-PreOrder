@@ -274,23 +274,40 @@ function playVideoWithSound() {
     video.currentTime = 0;
     video.play().then(() => {
       console.log("Video berhasil dimainkan dengan suara.");
+      // Jika masih tidak ada suara, coba unmute lagi setelah play
+      setTimeout(() => {
+        video.muted = false;
+        video.volume = 1;
+        console.log("Unmute ulang setelah play.");
+      }, 100);
     }).catch((e) => {
       console.log("Video play gagal:", e);
-      // Fallback: coba lagi muted jika diperlukan, tapi coba unmute lagi
+      // Fallback: play muted, lalu coba unmute
       video.muted = true;
       video.play().then(() => {
-        console.log("Video dimainkan muted, coba unmute manual.");
-        // Setelah play, coba unmute
+        console.log("Video dimainkan muted, mencoba unmute.");
         setTimeout(() => {
           video.muted = false;
           video.volume = 1;
-        }, 100);
+          console.log("Unmute setelah fallback.");
+        }, 500);
+      }).catch((e2) => {
+        console.log("Fallback juga gagal:", e2);
       });
     });
   } catch (e) {
     console.log("Error saat play video:", e);
   }
 }
+
+// Tambahkan event listener global untuk interaksi jika diperlukan
+document.addEventListener('click', () => {
+  if (unlocked && video.muted) {
+    video.muted = false;
+    video.volume = 1;
+    console.log("Unmute via global click.");
+  }
+}, { once: false });
 
 lockScreen.addEventListener('click', unlockCard);
 lockScreen.addEventListener('touchstart', unlockCard, {passive:true});
