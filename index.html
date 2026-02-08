@@ -11,6 +11,9 @@
   --gold2:#d4af37;
   --gold3:#fff1b0;
   --gold4:#caa64b;
+  --pink:#FFB6C1;
+  --blue:#87CEEB;
+  --green:#98FB98;
 }
 
 body {
@@ -38,6 +41,11 @@ body {
     inset 0 -6px 12px rgba(80,60,10,0.8),
     0 20px 60px rgba(0,0,0,0.4);
   position:relative;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
 }
 
 .inner {
@@ -66,11 +74,12 @@ video {
   display:flex;
   flex-direction:column;
   justify-content:center;
+  text-align:center;
 }
 
-.line1 {font-size:15px;color:#fff;}
-.nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;}
-.pesan {font-size:15px;color:#e8a5b5;margin-top:6px;}
+.line1 {font-size:15px;color:#fff;text-shadow:0 0 5px rgba(255,255,255,0.5);}
+.nama {font-size:24px;color:#fff1b0;font-weight:bold;margin-top:6px;text-shadow:0 0 10px var(--gold2);}
+.pesan {font-size:15px;color:#e8a5b5;margin-top:6px;text-shadow:0 0 5px var(--pink);}
 
 /* logo */
 .logo {
@@ -81,6 +90,9 @@ video {
   background:rgba(0,0,0,0.35);
   padding:6px;
   border-radius:50%;
+  backdrop-filter:blur(4px);
+  box-shadow:0 0 15px rgba(255,220,120,0.6);
+  z-index:5;
 }
 
 /* LOVE LOCK */
@@ -89,6 +101,7 @@ video {
   inset:0;
   background:linear-gradient(135deg,#000,#1a1a1a);
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   z-index:10;
@@ -101,9 +114,10 @@ video {
   pointer-events:none;
 }
 
-.heart {
+.icon {
   font-size:60px;
   animation:heartPulse 1.5s infinite;
+  margin-bottom:10px;
 }
 
 @keyframes heartPulse {
@@ -111,7 +125,7 @@ video {
   50% {transform:scale(1.2);}
 }
 
-.heart.open {
+.icon.open {
   animation:heartOpen 0.6s forwards;
 }
 
@@ -120,30 +134,59 @@ video {
   50% {transform:scale(1.5);}
   100% {transform:scale(0);opacity:0;}
 }
+
+.tap-text {
+  font-size:14px;
+  color:#fff;
+  opacity:0.8;
+  text-align:center;
+}
+
+/* Elemen dekoratif untuk estetika */
+.decor {
+  position:absolute;
+  top:20px;
+  left:20px;
+  font-size:30px;
+  opacity:0.7;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% {transform:translateY(0);}
+  50% {transform:translateY(-10px);}
+}
+
+/* Tema spesifik */
+.valentine .decor { content:"🌹"; color:var(--pink); }
+.birthday .decor { content:"🎂"; color:var(--blue); }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <div class="inner">
 
     <video id="video" loop playsinline>
       <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
     </video>
 
-    <img class="logo"
-    src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
+    <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo FIOR">
 
     <div class="text">
       <div class="line1">Untukmu,</div>
       <div class="nama" id="nama">Nama Kamu</div>
-      <div class="pesan" id="pesan">Happy Valentine’s Day</div>
+      <div class="pesan" id="pesan">Selamat Ulang Tahun!</div>
     </div>
+
+    <!-- Elemen dekoratif -->
+    <div class="decor" id="decor">🎂</div>
 
     <!-- Love lock -->
     <div class="lock-screen" id="lockScreen">
-      <div class="heart" id="heart">❤️</div>
+      <div class="icon" id="icon">🎂</div>
+      <div class="tap-text">Sentuh untuk membuka kartu</div>
     </div>
 
   </div>
@@ -156,8 +199,32 @@ video {
 <script>
 const video = document.getElementById("video");
 const lock = document.getElementById("lockScreen");
-const heart = document.getElementById("heart");
+const icon = document.getElementById("icon");
 const openSound = document.getElementById("openSound");
+const card = document.getElementById("card");
+const decor = document.getElementById("decor");
+
+/* Ambil parameter dari URL */
+const params = new URLSearchParams(window.location.search);
+const occasion = params.get("occasion") || "birthday"; // Default: birthday
+const nama = params.get("to");
+const pesan = params.get("msg");
+
+/* Set tema berdasarkan occasion */
+if (occasion === "valentine") {
+  card.classList.add("valentine");
+  icon.textContent = "❤️";
+  decor.textContent = "🌹";
+  if (!pesan) document.getElementById("pesan").textContent = "Happy Valentine’s Day!";
+} else {
+  card.classList.add("birthday");
+  icon.textContent = "🎂";
+  decor.textContent = "🎂";
+  if (!pesan) document.getElementById("pesan").textContent = "Selamat Ulang Tahun!";
+}
+
+if (nama) document.getElementById("nama").textContent = nama;
+if (pesan) document.getElementById("pesan").textContent = pesan;
 
 function openCard() {
   /* aktifkan suara video dan mulai play */
@@ -172,8 +239,8 @@ function openCard() {
     console.log("Audio play gagal.");
   });
 
-  /* animasi love */
-  heart.classList.add("open");
+  /* animasi ikon */
+  icon.classList.add("open");
 
   setTimeout(() => {
     lock.classList.add("hidden");
@@ -183,14 +250,6 @@ function openCard() {
 /* sentuhan user */
 lock.addEventListener("click", openCard);
 lock.addEventListener("touchstart", openCard);
-
-/* nama & pesan dari URL */
-const params = new URLSearchParams(window.location.search);
-const nama = params.get("to");
-const pesan = params.get("msg");
-
-if (nama) document.getElementById("nama").textContent = nama;
-if (pesan) document.getElementById("pesan").textContent = pesan;
 </script>
 
 </body>
