@@ -32,7 +32,10 @@
             border-radius: 28px;
             padding: 14px;
             background: linear-gradient(145deg, var(--gold1), var(--gold2) 25%, var(--gold3) 50%, var(--gold4) 70%, var(--gold1));
-            box-shadow: inset 0 4px 8px rgba(255, 255, 220, 0.7), inset 0 -6px 12px rgba(80, 60, 10, 0.8), 0 20px 60px rgba(0, 0, 0, 0.4);
+            box-shadow:
+                inset 0 4px 8px rgba(255, 255, 220, 0.7),
+                inset 0 -6px 12px rgba(80, 60, 10, 0.8),
+                0 20px 60px rgba(0, 0, 0, 0.4);
             position: relative;
         }
 
@@ -102,34 +105,43 @@
 <body>
     <div class="card">
         <div class="inner">
+
+            <!-- VIDEO SUDAH DIPERBAIKI -->
             <video id="video" autoplay muted loop playsinline>
-                <source src="aldo.mp4" type="video/mp4">
+                <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
             </video>
-            <img class="logo" src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png" alt="Logo FIOR">
+
+            <img class="logo"
+            src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png"
+            alt="Logo FIOR">
+
             <div class="text">
                 <div class="line1">Untukmu,</div>
                 <div class="nama" id="nama">Nama Kamu</div>
                 <div class="pesan" id="pesan">Happy Valentine’s Day</div>
             </div>
+
         </div>
     </div>
+
     <script>
         const video = document.getElementById("video");
 
-        /* Video mulai autoplay muted saat load, lalu unmute saat klik */
+        /* paksa autoplay */
         window.addEventListener('load', () => {
-            // Video sudah autoplay muted dari atribut HTML
-            // Tambahkan event untuk unmute saat klik pertama
-            document.addEventListener('click', () => {
-                video.muted = false;
-                video.play(); // Pastikan play jika perlu
-            }, { once: true }); // Hanya sekali
+            video.play().catch(() => {
+                document.addEventListener('click', () => {
+                    video.muted = false;
+                    video.play();
+                }, { once: true });
+            });
         });
 
         /* Ambil nama dan pesan dari URL */
         const params = new URLSearchParams(window.location.search);
         const nama = params.get("to");
         const pesan = params.get("msg");
+
         if (nama) document.getElementById("nama").textContent = nama;
         if (pesan) document.getElementById("pesan").textContent = pesan;
     </script>
