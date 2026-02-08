@@ -28,11 +28,12 @@ body {
   justify-content:center;
   padding:20px 15px;
   font-family:"Georgia","Times New Roman",serif;
-  background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 50%, #120b07 100%);
+  background: linear-gradient(135deg, #1a0a0a 0%, #0a0505 50%, #050202 100%);
   position: relative;
   overflow-x: hidden;
 }
 
+/* Background efek dramatis dengan multiple layers */
 body::before {
   content: '';
   position: fixed;
@@ -41,11 +42,191 @@ body::before {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(232, 165, 181, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 80%, rgba(183, 110, 121, 0.1) 0%, transparent 50%);
+    /* Layer 1: Deep gradient */
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(232, 165, 181, 0.25) 0%, transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(183, 110, 121, 0.15) 0%, transparent 60%),
+    
+    /* Layer 2: Dark vignette */
+    radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.9) 70%),
+    
+    /* Layer 3: Metallic texture */
+    repeating-linear-gradient(45deg, 
+      transparent, 
+      transparent 2px, 
+      rgba(90, 70, 20, 0.05) 3px, 
+      rgba(90, 70, 20, 0.05) 4px);
   pointer-events: none;
   z-index: 0;
+  animation: bgPulse 15s infinite alternate ease-in-out;
+}
+
+@keyframes bgPulse {
+  0% {
+    opacity: 0.7;
+    background-position: 0% 0%;
+  }
+  100% {
+    opacity: 1;
+    background-position: 100% 100%;
+  }
+}
+
+/* Efek cahaya berputar */
+.light-beam {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200vw;
+  height: 200vh;
+  background: radial-gradient(circle, 
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(232, 165, 181, 0.05) 30%,
+    transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: rotateBeam 40s infinite linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rotateBeam {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Efek lens flare */
+.lens-flare {
+  position: fixed;
+  top: 20%;
+  left: 80%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(212, 175, 55, 0.4) 30%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(10px);
+  animation: flarePulse 8s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes flarePulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* Efek kabut */
+.fog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(232, 165, 181, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+  animation: fogMove 30s infinite linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes fogMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(20px, 10px);
+  }
+  50% {
+    transform: translate(0, 20px);
+  }
+  75% {
+    transform: translate(-20px, 10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Efek bintang berkelap-kelip */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+.star:nth-child(1) { top: 15%; left: 10%; width: 2px; height: 2px; animation-delay: 0s; }
+.star:nth-child(2) { top: 25%; left: 85%; width: 3px; height: 3px; animation-delay: 0.5s; }
+.star:nth-child(3) { top: 65%; left: 15%; width: 2px; height: 2px; animation-delay: 1s; }
+.star:nth-child(4) { top: 75%; left: 90%; width: 1px; height: 1px; animation-delay: 1.5s; }
+.star:nth-child(5) { top: 40%; left: 60%; width: 2px; height: 2px; animation-delay: 2s; }
+.star:nth-child(6) { top: 10%; left: 40%; width: 3px; height: 3px; animation-delay: 2.5s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); background: var(--gold-light); }
+}
+
+/* Efek floating hearts background */
+.floating-hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart-bg {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.1;
+  animation: floatHeart 15s infinite linear;
+}
+
+.heart-bg:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; animation-duration: 20s; }
+.heart-bg:nth-child(2) { top: 20%; left: 85%; animation-delay: 3s; animation-duration: 25s; }
+.heart-bg:nth-child(3) { top: 70%; left: 10%; animation-delay: 6s; animation-duration: 18s; }
+.heart-bg:nth-child(4) { top: 80%; left: 80%; animation-delay: 9s; animation-duration: 22s; }
+.heart-bg:nth-child(5) { top: 30%; left: 60%; animation-delay: 12s; animation-duration: 30s; }
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.1;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* Animasi judul Happy Valentine's Day */
@@ -60,10 +241,13 @@ body::before {
   text-shadow: 
     0 0 10px rgba(212, 175, 55, 0.5),
     0 0 20px rgba(232, 165, 181, 0.3),
-    0 0 30px rgba(183, 110, 121, 0.2);
+    0 0 30px rgba(183, 110, 121, 0.2),
+    0 0 40px rgba(212, 175, 55, 0.2),
+    0 0 50px rgba(232, 165, 181, 0.1);
   position: relative;
   padding-bottom: 15px;
   animation: titleGlow 2.5s infinite alternate ease-in-out;
+  z-index: 1;
 }
 
 @keyframes titleGlow {
@@ -71,44 +255,18 @@ body::before {
     text-shadow: 
       0 0 10px rgba(212, 175, 55, 0.5),
       0 0 20px rgba(232, 165, 181, 0.3),
-      0 0 30px rgba(183, 110, 121, 0.2);
+      0 0 30px rgba(183, 110, 121, 0.2),
+      0 0 40px rgba(212, 175, 55, 0.2);
     transform: translateY(0);
   }
   100% {
     text-shadow: 
-      0 0 15px rgba(212, 175, 55, 0.7),
-      0 0 30px rgba(232, 165, 181, 0.5),
-      0 0 45px rgba(183, 110, 121, 0.4);
+      0 0 15px rgba(212, 175, 55, 0.8),
+      0 0 30px rgba(232, 165, 181, 0.6),
+      0 0 45px rgba(183, 110, 121, 0.4),
+      0 0 60px rgba(212, 175, 55, 0.3),
+      0 0 75px rgba(232, 165, 181, 0.2);
     transform: translateY(-3px);
-  }
-}
-
-.page-title::before {
-  content: '❤️';
-  position: absolute;
-  left: -35px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  animation: heartFloat 3s infinite ease-in-out;
-}
-
-.page-title::after {
-  content: '💐';
-  position: absolute;
-  right: -35px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  animation: heartFloat 3s infinite ease-in-out reverse;
-}
-
-@keyframes heartFloat {
-  0%, 100% {
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    transform: translateY(-50%) scale(1.2);
   }
 }
 
@@ -140,14 +298,17 @@ body::before {
   0% {
     transform: translateY(0) rotate(0deg);
     opacity: 0;
+    text-shadow: 0 0 0 transparent;
   }
   50% {
-    transform: translateY(-10px) rotate(5deg);
+    transform: translateY(-15px) rotate(8deg);
     opacity: 1;
+    text-shadow: 0 0 20px currentColor;
   }
   100% {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
+    text-shadow: 0 0 0 transparent;
   }
 }
 
@@ -160,7 +321,9 @@ body::before {
   width: 120px;
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--gold-main), var(--pink-main), var(--gold-main), transparent);
-  animation: underlineMove 2s infinite linear;
+  background-size: 200% 100%;
+  animation: underlineMove 2s infinite linear, underlineColor 4s infinite alternate;
+  z-index: 1;
 }
 
 @keyframes underlineMove {
@@ -169,6 +332,15 @@ body::before {
   }
   100% {
     background-position: 120px 0;
+  }
+}
+
+@keyframes underlineColor {
+  0%, 100% {
+    background: linear-gradient(90deg, transparent, var(--gold-main), var(--pink-main), var(--gold-main), transparent);
+  }
+  50% {
+    background: linear-gradient(90deg, transparent, var(--pink-main), var(--gold-main), var(--pink-main), transparent);
   }
 }
 
@@ -192,12 +364,14 @@ body::before {
     var(--gold-main) 75%, 
     var(--gold-dark) 100%);
   box-shadow: 
-    0 25px 60px rgba(0,0,0,0.6),
-    0 0 0 2px rgba(212, 175, 55, 0.3),
-    0 0 80px rgba(212, 175, 55, 0.4);
+    0 25px 60px rgba(0,0,0,0.8),
+    0 0 0 2px rgba(212, 175, 55, 0.4),
+    0 0 80px rgba(212, 175, 55, 0.5),
+    0 0 120px rgba(232, 165, 181, 0.3);
   transform-style: preserve-3d;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   animation: cardFloat 6s infinite ease-in-out;
+  z-index: 1;
 }
 
 @keyframes cardFloat {
@@ -211,6 +385,11 @@ body::before {
 
 .card:hover {
   transform: translateY(-8px) scale(1.01);
+  box-shadow: 
+    0 35px 80px rgba(0,0,0,1),
+    0 0 0 3px rgba(212, 175, 55, 0.6),
+    0 0 100px rgba(212, 175, 55, 0.7),
+    0 0 150px rgba(232, 165, 181, 0.4);
 }
 
 .card::before {
@@ -234,7 +413,9 @@ body::before {
   overflow:hidden;
   background:#000;
   z-index: 2;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
+  box-shadow: 
+    inset 0 0 40px rgba(0,0,0,0.9),
+    inset 0 0 60px rgba(212, 175, 55, 0.1);
 }
 
 .video-wrapper {
@@ -251,7 +432,7 @@ body::before {
   left: 0;
   right: 0;
   height: 45px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent);
   z-index: 2;
 }
 
@@ -304,7 +485,7 @@ body::before {
   right:0;
   height:42%;
   padding:28px 22px 22px;
-  background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.97));
+  background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.98));
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
@@ -326,7 +507,17 @@ body::before {
     var(--pink-main), 
     var(--gold-main), 
     transparent);
-  animation: borderGlow 3s infinite alternate;
+  background-size: 200% 100%;
+  animation: borderGlow 3s infinite alternate, borderMove 4s infinite linear;
+}
+
+@keyframes borderMove {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 @keyframes borderGlow {
@@ -337,6 +528,7 @@ body::before {
       var(--pink-main), 
       var(--gold-main), 
       transparent);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
   }
   100% {
     background: linear-gradient(90deg, 
@@ -345,6 +537,7 @@ body::before {
       var(--gold-main), 
       var(--pink-main), 
       transparent);
+    box-shadow: 0 0 20px rgba(232, 165, 181, 0.6);
   }
 }
 
@@ -352,10 +545,11 @@ body::before {
   font-size:15px;
   color:var(--gold-light);
   letter-spacing: 1.5px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   opacity: 0.95;
   font-style: italic;
   animation: fadeInUp 1s ease-out;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .recipient-name {
@@ -363,9 +557,10 @@ body::before {
   color:var(--gold-light);
   font-weight:bold;
   text-shadow: 
-    0 2px 10px rgba(212, 175, 55, 0.6),
-    0 4px 20px rgba(232, 165, 181, 0.4);
-  margin: 10px 0;
+    0 2px 10px rgba(212, 175, 55, 0.8),
+    0 4px 20px rgba(232, 165, 181, 0.6),
+    0 6px 30px rgba(183, 110, 121, 0.4);
+  margin: 8px 0;
   background: linear-gradient(45deg, 
     var(--gold-light) 0%, 
     #ffb7c5 50%, 
@@ -374,7 +569,7 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 1.5px;
-  animation: nameReveal 1.2s ease-out;
+  animation: nameReveal 1.2s ease-out, nameGlow 3s infinite alternate;
 }
 
 @keyframes nameReveal {
@@ -388,17 +583,34 @@ body::before {
   }
 }
 
+@keyframes nameGlow {
+  0% {
+    text-shadow: 
+      0 2px 10px rgba(212, 175, 55, 0.6),
+      0 4px 20px rgba(232, 165, 181, 0.4);
+  }
+  100% {
+    text-shadow: 
+      0 2px 15px rgba(212, 175, 55, 1),
+      0 4px 30px rgba(232, 165, 181, 0.8),
+      0 6px 40px rgba(183, 110, 121, 0.6);
+  }
+}
+
 .main-message {
   font-size:17px;
   color:var(--pink-main);
-  margin-top:12px;
+  margin-top:10px;
   padding: 12px 24px;
-  background: rgba(232, 165, 181, 0.15);
+  background: rgba(232, 165, 181, 0.2);
   border-radius: 15px;
-  border: 1px solid rgba(232, 165, 181, 0.3);
+  border: 1px solid rgba(232, 165, 181, 0.4);
   backdrop-filter: blur(15px);
   max-width: 92%;
   animation: messageSlide 1.5s ease-out;
+  box-shadow: 
+    0 5px 15px rgba(0,0,0,0.3),
+    inset 0 0 20px rgba(232, 165, 181, 0.1);
 }
 
 @keyframes messageSlide {
@@ -421,7 +633,7 @@ body::before {
   border-radius: 0;
   background: transparent;
   opacity:0;
-  margin-top:18px;
+  margin-top:15px;
   transition: opacity 0.5s ease;
   font-style: italic;
   text-align: center;
@@ -429,11 +641,28 @@ body::before {
   line-height: 1.5;
   font-weight: 300;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  text-shadow: 
+    0 2px 8px rgba(0,0,0,0.9),
+    0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .quote-text.visible {
   opacity:1;
+  animation: textGlow 3s infinite alternate;
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow: 
+      0 2px 8px rgba(0,0,0,0.9),
+      0 0 10px rgba(212, 175, 55, 0.3);
+  }
+  100% {
+    text-shadow: 
+      0 2px 8px rgba(0,0,0,0.9),
+      0 0 15px rgba(212, 175, 55, 0.5),
+      0 0 20px rgba(232, 165, 181, 0.3);
+  }
 }
 
 .lock-screen {
@@ -456,7 +685,9 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="pattern" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M0,12.5 L25,12.5 M12.5,0 L12.5,25" stroke="rgba(212,175,55,0.15)" stroke-width="0.8"/></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(%23pattern)"/></svg>');
+  background: 
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="pattern" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M0,12.5 L25,12.5 M12.5,0 L12.5,25" stroke="rgba(212,175,55,0.15)" stroke-width="0.8"/></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(%23pattern)"/></svg>'),
+    radial-gradient(circle at 50% 50%, transparent 30%, rgba(0,0,0,0.9) 70%);
   opacity: 0.4;
 }
 
@@ -470,11 +701,13 @@ body::before {
   font-size:90px;
   animation: pulse 1.8s infinite ease-in-out;
   text-shadow: 
-    0 0 40px rgba(232, 165, 181, 0.9),
-    0 0 80px rgba(232, 165, 181, 0.6),
-    0 0 120px rgba(232, 165, 181, 0.3);
+    0 0 40px rgba(232, 165, 181, 1),
+    0 0 80px rgba(232, 165, 181, 0.8),
+    0 0 120px rgba(232, 165, 181, 0.6),
+    0 0 160px rgba(232, 165, 181, 0.4);
   margin-bottom: 25px;
   position: relative;
+  filter: drop-shadow(0 0 10px rgba(232, 165, 181, 0.5));
 }
 
 .heart-icon::before {
@@ -485,8 +718,23 @@ body::before {
   transform: translate(-50%, -50%);
   width: 140px;
   height: 140px;
-  background: radial-gradient(circle, rgba(232, 165, 181, 0.3), transparent 70%);
+  background: radial-gradient(circle, 
+    rgba(232, 165, 181, 0.4) 0%,
+    rgba(232, 165, 181, 0.2) 30%,
+    transparent 70%);
   border-radius: 50%;
+  animation: heartGlow 2s infinite alternate;
+}
+
+@keyframes heartGlow {
+  0% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
 }
 
 @keyframes pulse {
@@ -505,13 +753,28 @@ body::before {
   color:var(--gold-light);
   margin-top:25px;
   padding: 10px 20px;
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.2);
   border-radius: 25px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.5);
   backdrop-filter: blur(15px);
-  animation: float 3.5s infinite ease-in-out;
+  animation: float 3.5s infinite ease-in-out, hintGlow 4s infinite alternate;
   font-weight: 600;
   letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+@keyframes hintGlow {
+  0% {
+    box-shadow: 
+      0 5px 15px rgba(0,0,0,0.3),
+      0 0 10px rgba(212, 175, 55, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 5px 20px rgba(0,0,0,0.4),
+      0 0 20px rgba(212, 175, 55, 0.4),
+      0 0 30px rgba(232, 165, 181, 0.2);
+  }
 }
 
 @keyframes float {
@@ -529,37 +792,28 @@ body::before {
   color:var(--gold-main);
   text-align:center;
   padding: 18px 30px;
-  background: rgba(10,10,10,0.85);
+  background: rgba(10,10,10,0.9);
   border-radius: 18px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  backdrop-filter: blur(15px);
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  box-shadow: 
+    0 8px 25px rgba(0,0,0,0.6),
+    0 0 20px rgba(212, 175, 55, 0.2);
+  animation: footerFloat 6s infinite ease-in-out;
 }
 
-.footer::before {
-  content: '🌹';
-  font-size: 18px;
-  animation: flowerSpin 10s infinite linear;
-}
-
-.footer::after {
-  content: '🌸';
-  font-size: 18px;
-  animation: flowerSpin 10s infinite linear reverse;
-}
-
-@keyframes flowerSpin {
-  0% {
-    transform: rotate(0deg);
+@keyframes footerFloat {
+  0%, 100% {
+    transform: translateY(0);
   }
-  100% {
-    transform: rotate(360deg);
+  50% {
+    transform: translateY(-5px);
   }
 }
 
@@ -570,8 +824,8 @@ body::before {
   font-weight: 500;
   padding: 6px 15px;
   border-radius: 25px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.4);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -586,17 +840,17 @@ body::before {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   transition: left 0.6s;
 }
 
 .footer a:hover {
   color:var(--pink-light);
-  background: rgba(232, 165, 181, 0.25);
-  border-color: rgba(232, 165, 181, 0.5);
+  background: rgba(232, 165, 181, 0.3);
+  border-color: rgba(232, 165, 181, 0.6);
   box-shadow: 
-    0 0 20px rgba(232, 165, 181, 0.4),
-    0 0 40px rgba(232, 165, 181, 0.2);
+    0 0 25px rgba(232, 165, 181, 0.5),
+    0 0 50px rgba(232, 165, 181, 0.3);
   transform: translateY(-2px);
 }
 
@@ -608,71 +862,47 @@ body::before {
   color: var(--pink-main);
   opacity: 0.6;
   font-size: 14px;
+  text-shadow: 0 0 5px currentColor;
 }
 
-/* Logo Instagram dan WhatsApp */
+/* Logo Instagram dengan love animasi */
 .instagram-logo::before {
-  content: '📷';
+  content: '❤️';
   font-size: 14px;
+  animation: instagramLove 1.5s infinite ease-in-out, instagramColor 3s infinite alternate;
 }
 
+@keyframes instagramLove {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes instagramColor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Logo WhatsApp tetap pakai chat bubble */
 .whatsapp-logo::before {
   content: '💬';
   font-size: 14px;
+  animation: whatsappFloat 2s infinite ease-in-out;
 }
 
-/* Efek partikel untuk background */
-.particle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.particle:nth-child(1) {
-  top: 10%;
-  left: 10%;
-  width: 5px;
-  height: 5px;
-  background: var(--gold-main);
-  border-radius: 50%;
-  animation: float-particle 25s infinite linear;
-}
-
-.particle:nth-child(2) {
-  top: 20%;
-  right: 15%;
-  width: 7px;
-  height: 7px;
-  background: var(--pink-main);
-  border-radius: 50%;
-  animation: float-particle 30s infinite linear reverse;
-}
-
-.particle:nth-child(3) {
-  bottom: 30%;
-  left: 20%;
-  width: 4px;
-  height: 4px;
-  background: var(--gold-light);
-  border-radius: 50%;
-  animation: float-particle 22s infinite linear;
-}
-
-@keyframes float-particle {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-  25% {
-    transform: translate(25px, 25px) rotate(90deg) scale(1.2);
+@keyframes whatsappFloat {
+  0%, 100% {
+    transform: translateY(0);
   }
   50% {
-    transform: translate(0, 50px) rotate(180deg) scale(1);
-  }
-  75% {
-    transform: translate(-25px, 25px) rotate(270deg) scale(0.8);
-  }
-  100% {
-    transform: translate(0, 0) rotate(360deg) scale(1);
+    transform: translateY(-3px);
   }
 }
 </style>
@@ -680,10 +910,27 @@ body::before {
 
 <body>
 
-<!-- Partikel background -->
-<div class="particle"></div>
-<div class="particle"></div>
-<div class="particle"></div>
+<!-- Background efek dramatis -->
+<div class="light-beam"></div>
+<div class="lens-flare"></div>
+<div class="fog"></div>
+
+<div class="stars">
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+</div>
+
+<div class="floating-hearts">
+  <div class="heart-bg">❤️</div>
+  <div class="heart-bg">❤️</div>
+  <div class="heart-bg">❤️</div>
+  <div class="heart-bg">❤️</div>
+  <div class="heart-bg">❤️</div>
+</div>
 
 <h1 class="page-title">
   <span>H</span><span>a</span><span>p</span><span>p</span><span>y</span>
