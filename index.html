@@ -18,10 +18,9 @@ body {
   margin:0;
   min-height:100vh;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:flex-start;
-  padding:40px 15px 60px;
+  justify-content:center;
+  padding:20px;
   box-sizing:border-box;
   font-family:"Georgia",serif;
   text-align:center;
@@ -37,27 +36,15 @@ body {
     );
 }
 
-/* MODE KARTU */
-.card-frame.card-mode {
-  width:86vw;
-  max-width:340px;
-  aspect-ratio:3/4;
-}
-
-/* MODE VIDEO */
-.card-frame.video-mode {
-  width:90vw;
-  max-width:420px;
-  height:70vh;
-  max-height:640px;
-}
-
-/* FRAME EMAS */
+/* KARTU UTAMA */
 .card-frame {
   position:relative;
+  width:90vw;
+  max-width:340px;
+  aspect-ratio:3/4;
   border-radius:30px;
   overflow:hidden;
-  padding:18px;
+  padding:16px;
 
   background:
     linear-gradient(145deg,
@@ -70,20 +57,27 @@ body {
   box-shadow:
     inset 0 4px 8px rgba(255,255,220,0.7),
     inset 0 -6px 12px rgba(80,60,10,0.8),
-    0 0 0 2px rgba(202,166,75,0.9),
-    0 30px 80px rgba(0,0,0,0.4);
+    0 20px 60px rgba(0,0,0,0.4);
 }
 
-.card-frame::before {
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:24px;
+/* lapisan dalam */
+.inner-card {
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:22px;
+  overflow:hidden;
   background:black;
   box-shadow:
     inset 0 0 0 2px rgba(255,230,150,0.7),
     inset 0 0 25px rgba(0,0,0,0.9);
-  z-index:0;
+}
+
+/* video */
+video {
+  width:100%;
+  height:70%;
+  object-fit:cover;
 }
 
 /* kilau emas */
@@ -100,7 +94,6 @@ body {
   );
   transform:rotate(25deg);
   animation:goldShine 8s linear infinite;
-  z-index:2;
   pointer-events:none;
 }
 
@@ -109,77 +102,40 @@ body {
   to {transform:translateX(60%) rotate(25deg);}
 }
 
-video {
-  position:relative;
-  z-index:1;
-  width:100%;
-  height:100%;
-  border-radius:20px;
-  background:black;
-}
-
-.portrait video {object-fit:contain;}
-.landscape video {object-fit:cover;}
-
-/* floral sudut */
-.floral {
+/* teks dalam kartu */
+.text-area {
+  padding:14px 10px 18px;
+  background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.85));
   position:absolute;
-  width:100px;
-  height:100px;
-  z-index:3;
-  pointer-events:none;
-  background:radial-gradient(circle,#fff1b0,#caa64b);
-  border-radius:50%;
-  filter:blur(6px);
-  opacity:0.7;
+  bottom:0;
+  width:100%;
 }
 
-.tl {top:-25px;left:-25px;}
-.tr {top:-25px;right:-25px;}
-.bl {bottom:-25px;left:-25px;}
-.br {bottom:-25px;right:-25px;}
+.line1 {
+  font-size:16px;
+  color:#fff;
+}
+
+#namaPenerima {
+  font-size:22px;
+  color:#fff1b0;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+.line3 {
+  font-size:14px;
+  color:#e8a5b5;
+  margin-top:6px;
+}
 
 /* watermark */
 .watermark {
   position:absolute;
-  bottom:15px;
-  right:15px;
-  width:80px;
+  bottom:10px;
+  right:10px;
+  width:70px;
   opacity:0.35;
-  z-index:4;
-  pointer-events:none;
-}
-
-/* teks */
-.valentine-text {
-  margin-top:25px;
-  margin-bottom:20px;
-  max-width:90%;
-}
-
-.line {
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp 1s ease forwards;
-}
-
-.line1 {font-size:20px;animation-delay:.5s;}
-
-#namaPenerima {
-  font-size:24px;
-  color:#b8962e;
-  font-weight:bold;
-  animation-delay:1.5s;
-}
-
-.line3 {
-  font-size:18px;
-  margin-top:10px;
-  animation-delay:2.5s;
-}
-
-@keyframes fadeUp {
-  to {opacity:1;transform:translateY(0);}
 }
 
 /* notif */
@@ -193,54 +149,29 @@ video {
   border-radius:20px;
   font-size:14px;
   z-index:10;
-  animation:fadeBlink 2s infinite;
-}
-
-@keyframes fadeBlink {
-  0%,100%{opacity:1;}
-  50%{opacity:.6;}
-}
-
-.sparkle {
-  position:fixed;
-  width:6px;
-  height:6px;
-  background:white;
-  border-radius:50%;
-  box-shadow:0 0 10px white;
-  animation:sparkleAnim 1.2s ease-out forwards;
-  z-index:9;
-}
-
-@keyframes sparkleAnim {
-  from {transform:scale(0);opacity:1;}
-  to {transform:scale(2);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card-frame" id="frame">
-  <video id="promoVideo" autoplay muted loop playsinline>
-    <source src="aldo.mp4" type="video/mp4">
-  </video>
+<div class="card-frame">
+  <div class="inner-card">
+    <video id="promoVideo" autoplay muted loop playsinline>
+      <source src="aldo.mp4" type="video/mp4">
+    </video>
 
-  <div class="shine"></div>
+    <div class="shine"></div>
 
-  <div class="floral tl"></div>
-  <div class="floral tr"></div>
-  <div class="floral bl"></div>
-  <div class="floral br"></div>
+    <div class="text-area">
+      <div class="line1">Untukmu,</div>
+      <div id="namaPenerima">Nama Kamu</div>
+      <div class="line3">Happy Valentine’s Day</div>
+    </div>
 
-  <img class="watermark"
-  src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
-</div>
-
-<div class="valentine-text">
-  <div class="line line1">Untukmu,</div>
-  <div class="line" id="namaPenerima">Nama Kamu</div>
-  <div class="line line3">Happy Valentine’s Day</div>
+    <img class="watermark"
+    src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/logo%20fior%20transparant.png">
+  </div>
 </div>
 
 <audio id="openSound" preload="auto">
@@ -255,7 +186,6 @@ video {
 const video = document.getElementById("promoVideo");
 const tapNotif = document.getElementById("tapNotif");
 const openSound = document.getElementById("openSound");
-const frame = document.getElementById("frame");
 
 /* aktifkan suara */
 function enableSound() {
@@ -263,33 +193,9 @@ function enableSound() {
   video.play();
   tapNotif.style.display = "none";
   openSound.play();
-  createSparkles();
 }
 document.body.addEventListener("click", enableSound);
 document.body.addEventListener("touchstart", enableSound);
-
-/* sparkle */
-function createSparkles() {
-  for (let i = 0; i < 20; i++) {
-    const s = document.createElement("div");
-    s.classList.add("sparkle");
-    s.style.left = (window.innerWidth/2 + (Math.random()*120-60))+"px";
-    s.style.top = (window.innerHeight/2 + (Math.random()*120-60))+"px";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),1200);
-  }
-}
-
-/* MODE OTOMATIS */
-video.addEventListener("loadedmetadata", () => {
-  const ratio = video.videoWidth / video.videoHeight;
-
-  if (ratio > 1) {
-    frame.classList.add("video-mode","landscape");
-  } else {
-    frame.classList.add("card-mode","portrait");
-  }
-});
 
 /* nama dari URL */
 const params = new URLSearchParams(window.location.search);
