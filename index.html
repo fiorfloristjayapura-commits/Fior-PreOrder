@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kartu Ucapan FIOR</title>
+<title>Kartu Ucapan FIOR - Long Stem Elegance</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -11,6 +11,9 @@
   --gold2:#d4af37;
   --gold3:#fff1b0;
   --gold4:#caa64b;
+  --green:#228B22; /* Hijau untuk tangkai bunga */
+  --pink:#FFB6C1; /* Pink untuk bunga */
+  --shadow:rgba(0,0,0,0.4);
 }
 
 body {
@@ -22,10 +25,13 @@ body {
   padding:20px;
   font-family:"Georgia",serif;
   background:
-    radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%);
+    radial-gradient(circle at 30% 20%, #fff8e8, #f3e6c8 60%),
+    url('https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/main/floral-bg.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow:hidden;
 }
 
-/* kartu utama */
+/* kartu utama dengan efek 3D dan long stem */
 .card {
   width:90vw;
   max-width:340px;
@@ -41,8 +47,15 @@ body {
   box-shadow:
     inset 0 4px 8px rgba(255,255,220,0.7),
     inset 0 -6px 12px rgba(80,60,10,0.8),
-    0 20px 60px rgba(0,0,0,0.4);
+    0 20px 60px var(--shadow),
+    0 0 0 2px var(--gold2);
   position:relative;
+  transform: perspective(1000px) rotateX(5deg);
+  transition: transform 0.5s ease;
+}
+
+.card:hover {
+  transform: perspective(1000px) rotateX(0deg);
 }
 
 .inner {
@@ -54,25 +67,28 @@ body {
   background:black;
 }
 
-/* video */
+/* video dengan efek fade */
 video {
   width:100%;
   height:65%;
   object-fit:cover;
+  transition: opacity 1s ease;
 }
 
-/* teks */
+/* teks dengan efek glow */
 .text {
   position:absolute;
   bottom:0;
   width:100%;
   padding:16px 12px 20px;
   background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.9));
+  animation: fadeInUp 1s ease-out 0.5s both;
 }
 
 .line1 {
   font-size:15px;
   color:#fff;
+  text-shadow: 0 0 5px var(--gold3);
 }
 
 .nama {
@@ -80,15 +96,18 @@ video {
   color:#fff1b0;
   font-weight:bold;
   margin-top:4px;
+  text-shadow: 0 0 10px var(--gold2);
+  animation: glow 2s ease-in-out infinite alternate;
 }
 
 .pesan {
   font-size:14px;
   color:#e8a5b5;
   margin-top:6px;
+  text-shadow: 0 0 5px var(--pink);
 }
 
-/* logo */
+/* logo dengan efek hover */
 .logo {
   position:absolute;
   top:10px;
@@ -98,9 +117,72 @@ video {
   padding:6px;
   border-radius:50%;
   backdrop-filter:blur(4px);
+  transition: transform 0.3s ease;
 }
 
-/* PENUTUP GEMBOK */
+.logo:hover {
+  transform: scale(1.1);
+}
+
+/* Elemen long stem: tangkai bunga panjang yang muncul saat buka */
+.stem {
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:4px;
+  height:0;
+  background:linear-gradient(to top, var(--green), #32CD32);
+  border-radius:2px;
+  animation: growStem 2s ease-out 1s forwards;
+  z-index:5;
+}
+
+.flower {
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%) translateY(100%);
+  width:40px;
+  height:40px;
+  background:radial-gradient(circle, var(--pink), #FF69B4);
+  border-radius:50%;
+  box-shadow: 0 0 10px var(--pink);
+  animation: bloom 2s ease-out 1.5s forwards;
+  z-index:5;
+}
+
+@keyframes growStem {
+  to { height:200px; }
+}
+
+@keyframes bloom {
+  to { transform:translateX(-50%) translateY(-200px); }
+}
+
+/* Partikel bunga jatuh sebagai efek tambahan */
+.petal {
+  position:absolute;
+  width:10px;
+  height:10px;
+  background:var(--pink);
+  border-radius:50%;
+  opacity:0.7;
+  animation: fall 5s linear infinite;
+}
+
+.petal:nth-child(1) { left:10%; animation-delay:0s; }
+.petal:nth-child(2) { left:20%; animation-delay:1s; }
+.petal:nth-child(3) { left:30%; animation-delay:2s; }
+.petal:nth-child(4) { left:40%; animation-delay:3s; }
+.petal:nth-child(5) { left:50%; animation-delay:4s; }
+
+@keyframes fall {
+  0% { top:-10px; transform:rotate(0deg); }
+  100% { top:100vh; transform:rotate(360deg); }
+}
+
+/* PENUTUP GEMBOK dengan animasi */
 .lock-screen {
   position:absolute;
   inset:0;
@@ -112,12 +194,13 @@ video {
   z-index:10;
   color:white;
   cursor:pointer;
-  transition:0.6s;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .lock-screen.hidden {
   opacity:0;
   pointer-events:none;
+  transform: scale(0.9);
 }
 
 .lock-icon {
@@ -134,11 +217,44 @@ video {
 .tap-text {
   font-size:14px;
   opacity:0.8;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:0.8; }
+}
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px var(--gold2); }
+  to { text-shadow: 0 0 20px var(--gold2), 0 0 30px var(--gold2); }
+}
+
+/* Responsivitas */
+@media (max-width: 480px) {
+  .card {
+    width:95vw;
+    max-width:320px;
+  }
+  .nama { font-size:20px; }
+  .pesan { font-size:13px; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- Partikel bunga jatuh -->
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
 
 <div class="card">
   <div class="inner">
@@ -155,6 +271,10 @@ video {
       <div class="nama" id="nama">Nama Kamu</div>
       <div class="pesan" id="pesan">Happy Valentine’s Day</div>
     </div>
+
+    <!-- Elemen long stem -->
+    <div class="stem"></div>
+    <div class="flower"></div>
 
     <!-- Penutup gembok -->
     <div class="lock-screen" id="lockScreen">
@@ -174,12 +294,14 @@ const video = document.getElementById("video");
 const lock = document.getElementById("lockScreen");
 const openSound = document.getElementById("openSound");
 
-/* buka kartu */
+/* buka kartu dengan efek tambahan */
 function openCard() {
   lock.classList.add("hidden");
   video.muted = false;
   video.play();
   openSound.play();
+  // Tambahkan efek fade pada video
+  video.style.opacity = '1';
 }
 
 lock.addEventListener("click", openCard);
