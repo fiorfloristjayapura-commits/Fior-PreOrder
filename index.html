@@ -128,7 +128,7 @@ video {
 <div class="card">
   <div class="inner">
 
-    <video id="video" autoplay muted loop playsinline>
+    <video id="video" loop playsinline>
       <source src="https://raw.githubusercontent.com/fiorfloristjayapura-commits/Fior-PreOrder/83a0a2c28355c584011bf78ba3624116f3824635/aldo.mp4" type="video/mp4">
     </video>
 
@@ -160,14 +160,17 @@ const heart = document.getElementById("heart");
 const openSound = document.getElementById("openSound");
 
 function openCard() {
-
-  /* aktifkan suara video */
+  /* aktifkan suara video dan mulai play */
   video.muted = false;
-  video.play().catch(()=>{});
+  video.play().catch(() => {
+    console.log("Video play gagal, mungkin diblokir browser.");
+  });
 
   /* mainkan efek suara */
   openSound.currentTime = 0;
-  openSound.play().catch(()=>{});
+  openSound.play().catch(() => {
+    console.log("Audio play gagal.");
+  });
 
   /* animasi love */
   heart.classList.add("open");
