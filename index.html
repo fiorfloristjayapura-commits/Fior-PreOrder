@@ -243,15 +243,48 @@ function unlockCard() {
   if (unlocked) return;
   unlocked = true;
 
-  try {
-    video.muted = false;
-    video.currentTime = 0;
-    video.play();
+  // Pastikan video dimuat sebelum play
+  if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+    try {
+      video.muted = false;
+      video.currentTime = 0;
+      video.play().then(() => {
+        console.log("Video berhasil dimainkan dengan suara.");
+      }).catch((e) => {
+        console.log("Video play gagal:", e);
+        // Fallback: coba lagi muted
+        video.muted = true;
+        video.play();
+      });
+    } catch (e) {
+      console.log("Error saat play video:", e);
+    }
+  } else {
+    console.log("Video belum siap, menunggu load.");
+    video.addEventListener('canplay', () => {
+      try {
+        video.muted = false;
+        video.currentTime = 0;
+        video.play().then(() => {
+          console.log("Video berhasil dimainkan setelah load.");
+        }).catch((e) => {
+          console.log("Video play gagal setelah load:", e);
+          video.muted = true;
+          video.play();
+        });
+      } catch (e) {
+        console.log("Error saat play video setelah load:", e);
+      }
+    }, { once: true });
+  }
 
+  try {
     unlockSound.currentTime = 0;
-    unlockSound.play();
+    unlockSound.play().catch((e) => {
+      console.log("Audio play gagal:", e);
+    });
   } catch (e) {
-    console.log("Audio/video blocked:", e);
+    console.log("Error saat play audio:", e);
   }
 
   lockScreen.classList.add('hidden');
