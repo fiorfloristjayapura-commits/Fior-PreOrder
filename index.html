@@ -137,27 +137,6 @@
             font-size: 14px;
             opacity: 0.8;
         }
-
-        /* Kelopak bunga jatuh */
-        .petal {
-            position: fixed;
-            top: -20px;
-            width: 18px;
-            height: 18px;
-            background: radial-gradient(circle, #ffb6c1, #e07a8c);
-            border-radius: 50%;
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: 2;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(360deg);
-                opacity: 0.3;
-            }
-        }
     </style>
 </head>
 <body>
@@ -193,28 +172,10 @@
             video.muted = false;
             video.play();
             openSound.play();
-            startPetals();
         }
 
         lock.addEventListener("click", openCard);
         lock.addEventListener("touchstart", openCard);
-
-        /* Animasi kelopak bunga jatuh */
-        function createPetal() {
-            const petal = document.createElement("div");
-            petal.classList.add("petal");
-            const size = Math.random() * 12 + 10;
-            petal.style.width = size + "px";
-            petal.style.height = size + "px";
-            petal.style.left = Math.random() * window.innerWidth + "px";
-            petal.style.animationDuration = (Math.random() * 4 + 6) + "s";
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 10000);
-        }
-
-        function startPetals() {
-            setInterval(createPetal, 800);
-        }
 
         /* Ambil nama dan pesan dari URL */
         const params = new URLSearchParams(window.location.search);
