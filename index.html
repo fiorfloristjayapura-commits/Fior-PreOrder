@@ -245,37 +245,10 @@ function unlockCard() {
 
   // Pastikan video dimuat sebelum play
   if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-    try {
-      video.muted = false;
-      video.currentTime = 0;
-      video.play().then(() => {
-        console.log("Video berhasil dimainkan dengan suara.");
-      }).catch((e) => {
-        console.log("Video play gagal:", e);
-        // Fallback: coba lagi muted
-        video.muted = true;
-        video.play();
-      });
-    } catch (e) {
-      console.log("Error saat play video:", e);
-    }
+    playVideoWithSound();
   } else {
     console.log("Video belum siap, menunggu load.");
-    video.addEventListener('canplay', () => {
-      try {
-        video.muted = false;
-        video.currentTime = 0;
-        video.play().then(() => {
-          console.log("Video berhasil dimainkan setelah load.");
-        }).catch((e) => {
-          console.log("Video play gagal setelah load:", e);
-          video.muted = true;
-          video.play();
-        });
-      } catch (e) {
-        console.log("Error saat play video setelah load:", e);
-      }
-    }, { once: true });
+    video.addEventListener('canplay', playVideoWithSound, { once: true });
   }
 
   try {
@@ -292,6 +265,31 @@ function unlockCard() {
   setTimeout(() => {
     typeWriter('Simply put, I love you more each day', quoteText);
   }, 400);
+}
+
+function playVideoWithSound() {
+  try {
+    video.muted = false;
+    video.volume = 1; // Pastikan volume penuh
+    video.currentTime = 0;
+    video.play().then(() => {
+      console.log("Video berhasil dimainkan dengan suara.");
+    }).catch((e) => {
+      console.log("Video play gagal:", e);
+      // Fallback: coba lagi muted jika diperlukan, tapi coba unmute lagi
+      video.muted = true;
+      video.play().then(() => {
+        console.log("Video dimainkan muted, coba unmute manual.");
+        // Setelah play, coba unmute
+        setTimeout(() => {
+          video.muted = false;
+          video.volume = 1;
+        }, 100);
+      });
+    });
+  } catch (e) {
+    console.log("Error saat play video:", e);
+  }
 }
 
 lockScreen.addEventListener('click', unlockCard);
