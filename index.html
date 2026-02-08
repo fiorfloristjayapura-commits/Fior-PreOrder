@@ -7,14 +7,13 @@
 
 <style>
 body{
-  font-family:Arial, sans-serif;
+  font-family:Arial;
   background:#111;
   color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
   min-height:100vh;
-  margin:0;
 }
 
 .box{
@@ -22,62 +21,35 @@ body{
   padding:25px;
   border-radius:15px;
   width:90%;
-  max-width:400px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  max-width:420px;
 }
 
 h2{
   text-align:center;
   color:#d4af37;
-  margin-bottom:20px;
 }
 
-label{
-  font-size:14px;
-  opacity:.8;
-}
-
-input, textarea{
+input, textarea, select{
   width:100%;
   padding:10px;
-  margin-top:6px;
-  margin-bottom:15px;
+  margin:8px 0;
   border:none;
-  border-radius:8px;
-  font-size:14px;
+  border-radius:6px;
 }
 
 button{
   width:100%;
   padding:12px;
   background:#d4af37;
-  color:#000;
   border:none;
-  border-radius:8px;
   font-weight:bold;
-  font-size:15px;
   cursor:pointer;
 }
 
 .result{
-  margin-top:20px;
-  background:#000;
-  padding:10px;
-  border-radius:8px;
+  margin-top:15px;
   font-size:13px;
   word-break:break-all;
-}
-
-.link-btn{
-  margin-top:10px;
-  display:block;
-  text-align:center;
-  padding:10px;
-  background:#25D366;
-  color:#fff;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:bold;
 }
 </style>
 </head>
@@ -85,46 +57,63 @@ button{
 <body>
 
 <div class="box">
-  <h2>Admin Kartu FIOR</h2>
+  <h2>Admin FIOR</h2>
 
-  <label>Nama Penerima</label>
-  <input type="text" id="nama" placeholder="Contoh: Rina">
+  <input type="text" id="nama" placeholder="Nama penerima">
+  <input type="text" id="hp" placeholder="No HP customer">
+  <textarea id="pesan" placeholder="Pesan"></textarea>
 
-  <label>Pesan</label>
-  <textarea id="pesan" rows="3" placeholder="Contoh: Dari Andi"></textarea>
+  <select id="tema">
+    <option value="valentine">Valentine</option>
+    <option value="birthday">Ulang Tahun</option>
+    <option value="condolence">Duka Cita</option>
+  </select>
 
-  <button onclick="generate()">Buat Link Kartu</button>
+  <button onclick="generate()">Buat Kartu</button>
 
-  <div id="output" class="result" style="display:none;"></div>
-  <a id="waBtn" class="link-btn" target="_blank" style="display:none;">
-    Kirim via WhatsApp
-  </a>
+  <div id="result" class="result"></div>
 </div>
 
 <script>
+const scriptURL = "PASTE_LINK_APPS_SCRIPT_DI_SINI";
+
 function generate(){
-  const nama = encodeURIComponent(document.getElementById("nama").value.trim());
-  const pesan = encodeURIComponent(document.getElementById("pesan").value.trim());
+  const nama = document.getElementById("nama").value;
+  const hp = document.getElementById("hp").value;
+  const pesan = document.getElementById("pesan").value;
+  const tema = document.getElementById("tema").value;
 
-  if(!nama){
-    alert("Isi nama penerima dulu");
-    return;
-  }
+  if(!nama) return alert("Isi nama dulu");
 
-  // GANTI dengan link kartu asli
-  const baseURL = "https://fiorfloristjayapura-commits.github.io/Fior-PreOrder/kartu-fior-lite.html";
+  const link = "https://fiorfloristjayapura-commits.github.io/Fior-PreOrder/kartu-fior-lite.html"
+    + "?to=" + encodeURIComponent(nama)
+    + "&msg=" + encodeURIComponent(pesan)
+    + "&theme=" + tema;
 
-  const link = baseURL + "?to=" + nama + "&msg=" + pesan;
+  // kirim customer
+  fetch(scriptURL, {
+    method:"POST",
+    body:JSON.stringify({
+      type:"customer",
+      nama:nama,
+      no_hp:hp,
+      catatan:""
+    })
+  });
 
-  const output = document.getElementById("output");
-  const waBtn = document.getElementById("waBtn");
+  // kirim kartu
+  fetch(scriptURL, {
+    method:"POST",
+    body:JSON.stringify({
+      type:"card",
+      nama:nama,
+      tema:tema,
+      pesan:pesan,
+      link:link
+    })
+  });
 
-  output.style.display = "block";
-  output.textContent = link;
-
-  const waText = encodeURIComponent("Ini kartu ucapan untuk kamu 💐\n" + link);
-  waBtn.href = "https://wa.me/?text=" + waText;
-  waBtn.style.display = "block";
+  document.getElementById("result").textContent = link;
 }
 </script>
 
